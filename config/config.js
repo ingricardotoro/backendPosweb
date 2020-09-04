@@ -28,6 +28,7 @@ if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/posweb'
 } else {
     // urlDB = 'mongodb+srv://userdb:yi2FFaqAVTGIeINX@cluster0.vrwtp.mongodb.net/cafe'
+    urlDB = 'mongodb + srv: //userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb'
 }
 
 process.env.URL_DB = urlDB
