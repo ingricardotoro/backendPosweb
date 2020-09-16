@@ -31,7 +31,8 @@ let urlDB
     urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb'
 }*/
 
-urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb'
+//urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb'
+urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb?retryWrites=true&w=majority'
 
 process.env.URL_DB = urlDB
 
