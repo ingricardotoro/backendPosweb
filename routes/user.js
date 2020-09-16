@@ -28,6 +28,6 @@ router.post('/', [
 ], createUser)
 
 //Ruta para listar los usuario existentes (GET) ../api/users , debe ser un usuario logeado con token valido
-router.get('/', validarJwt, listUsers)
+router.get('/', listUsers)
 
 module.exports = router
