@@ -3,11 +3,6 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const contactSchema = Schema({
 
-    personid: {
-        type: Schema.Types.ObjectId,
-        ref: 'Person',
-        required: [true, 'El id de la persona es obligatorio'],
-    },
     phone1: {
         type: String,
         trim: true,

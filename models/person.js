@@ -30,6 +30,11 @@ const personSchema = Schema({
         trim: true,
         required: [true, 'El género es obligatorio'],
     },
+    contactid: {
+        type: Schema.Types.ObjectId,
+        ref: 'Contact',
+        required: [true, 'El id de la persona es obligatorio'],
+    },
     image: {
         type: String,
     },

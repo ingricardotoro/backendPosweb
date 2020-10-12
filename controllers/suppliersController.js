@@ -5,13 +5,24 @@ const Contact = require('../models/contact')
 //funcion para listar todos los empleados
 const listSuppliers = async(req, res) => {
 
-    const suppliers = await Supplier.find({}).populate('Persona').populate('Contact')
+    Supplier.find({})
+        .populate({
+            path: 'personid',
+            populate: {
+                path: 'contactid',
+                model: 'Contact'
+            }
+        })
+        .exec(function(err, suppliers) {
+            res.status(200).json({
+                ok: true,
+                msg: "Lista de Proveedores",
+                suppliers
+            })
 
-    res.status(200).json({
-        ok: true,
-        msg: "Lista de Proveedores",
-        suppliers
-    })
+            console.log(suppliers);
+        });
+
 }
 
 //funcion para crear nuevos Empleados
@@ -19,6 +30,7 @@ const createSupplier = async(req, res) => {
 
     const {
         personid,
+        contactid,
         name,
         lastname,
         identidad,
@@ -51,46 +63,46 @@ const createSupplier = async(req, res) => {
     } = req.body
 
     //EN CASO DE SER UNA NUEVA PERSONA
-    if (personid === -1) {
+    if (personid === -1 && contactid === -1) {
 
+        //creamos un objeto de la instancia Contact
         try {
-            //creamos una instancia del objeto Persona
-            newPerson = new Person({
-                name,
-                lastname,
-                identidad,
-                gender,
-                rtn,
-                fec_nac
+            newContact = new Contact({
+                //personid: newPerson._id,
+                phone1,
+                phone2,
+                email,
+                country,
+                city,
+                location,
+                website,
+                facebook,
+                twitter,
+                linkedin,
+                skype,
             })
 
-            //guardamos el usuario en la base de datos
-            if (await newPerson.save()) {
+            if (await newContact.save()) {
 
-                //creamos un objeto de la instancia Contact
                 try {
-                    newContact = new Contact({
-                        personid: newPerson._id,
-                        phone1,
-                        phone2,
-                        email,
-                        country,
-                        city,
-                        location,
-                        website,
-                        facebook,
-                        twitter,
-                        linkedin,
-                        skype,
+                    //creamos una instancia del objeto Persona
+                    newPerson = new Person({
+                        name,
+                        lastname,
+                        identidad,
+                        gender,
+                        rtn,
+                        fec_nac,
+                        contactid: newContact._id,
                     })
 
-                    if (await newContact.save()) {
+                    //guardamos el usuario en la base de datos
+                    if (await newPerson.save()) {
 
-                        //creamos un objeto de la instancia Employee
+                        //creamos un objeto de la instancia Proveedor
                         try {
 
                             newSupplier = new Supplier({
-                                personid: newPerson._id,
                                 codeSupplier,
                                 companyName,
                                 companyCity,
@@ -102,7 +114,8 @@ const createSupplier = async(req, res) => {
                                 companyLogo,
                                 title,
                                 workPosition,
-                                active
+                                active,
+                                personid: newPerson._id,
                             })
 
                             if (newSupplier.save()) {
@@ -111,8 +124,8 @@ const createSupplier = async(req, res) => {
                                 res.status(201).json({
                                     ok: true,
                                     msg: 'Supplier Created',
-                                    newPerson,
                                     newContact,
+                                    newPerson,
                                     newSupplier
                                 })
                             }
@@ -124,27 +137,28 @@ const createSupplier = async(req, res) => {
                                 msg: "Error creating Supplier"
                             })
                         }
+
                     }
+
                 } catch (error) {
+
                     console.log(error)
                     res.status(500).json({
                         ok: false,
-                        msg: "Error creating Contact"
+                        msg: "Error creating Person"
                     })
                 }
 
             }
-
         } catch (error) {
-
             console.log(error)
             res.status(500).json({
                 ok: false,
-                msg: "Error creating Person"
+                msg: "Error creating Contact"
             })
         }
-    }
 
+    }
 
 }
 

@@ -5,119 +5,15 @@ const Contact = require('../models/contact')
 //funcion para listar todos los empleados
 const listEmployee = async(req, res) => {
 
-    /*await Employee.find().populate({
-        path: 'personid',
-        populate: {
-            path: 'personid',
-            model: 'Person',
-            populate: {
-                path: 'personid',
-                model: 'Contact'
-            }
-        }})
-    const employees = await Employee
-        .find()
+    Employee.find({})
         .populate({
             path: 'personid',
-            model: 'Person',
             populate: {
-                path: 'personid',
+                path: 'contactid',
                 model: 'Contact'
-            }
-        })*/
-
-
-
-
-    /*
-        await Employee
-            .find({})
-            .populate({
-                path: 'personid',
-                model: 'Person'
-            }).exec(function(err, employee) {
-
-                console.log(employee);
-
-                const empleados = Person.populate({
-                    path: 'employee.personid',
-                    model: 'Contact'
-                })
-
-                res.status(200).json({
-                    ok: true,
-                    msg: "Lista de Empleados",
-                    empleados
-                })
-
-                console.log(empleados);
-
-            });*/
-
-    Employee.find().populate('personid')
-        .exec(function(err, employees) {
-            if (err) return res.json(400, err);
-            console.log(employees);
-            employees.map(employee => {
-                const empleados = Contact.findOne({ personid: employee.personid })
-                    .exec(function(err, contact) {
-
-                        if (err) return res.json(400, err);
-
-                        employee.personid.rtn = contact
-
-                        console.log(employee.person);
-                        res.status(200).json({
-                            ok: true,
-                            msg: "Lista de Empleados",
-                            employee: employee,
-                            contact: contact
-                        })
-
-                    })
-            })
-
-
-
-            /*employees.map(employee => {
-
-                Contact.populate('people.personid')
-                    .exe(function(err, contacts) {
-                        if (err) return res.json(400, err);
-
-                        //employee.people.personid = contact;
-
-                        console.log(contacts[0]);
-                        res.status(200).json({
-                                ok: true,
-                                msg: "Lista de Empleados",
-                                employee: employee.people
-                            })
-                            //res.send(employee.people);
-                    });
-            })*/
-
-        });
-
-    /*await Employee.find({}).populate({
-            path: 'personid',
-            populate: {
-                path: 'personid',
-                model: 'Person',
-                /*populate: {
-                    path: 'personid',
-                    model: 'Contact'
-                }*/
-    /* }
-        }).populate({
-            path: 'personid',
-            populate: {
-                path: 'personid',
-                model: 'Contact',
             }
         })
         .exec(function(err, employees) {
-
             res.status(200).json({
                 ok: true,
                 msg: "Lista de Empleados",
@@ -125,18 +21,7 @@ const listEmployee = async(req, res) => {
             })
 
             console.log(employees);
-        });*/
-
-    /*await Employee.find().populate('personid').exec(function(err, employees) {
-
-        res.status(200).json({
-            ok: true,
-            msg: "Lista de Empleados",
-            employees
-        })
-
-        console.log(employees);
-    });*/
+        });
 
 }
 
@@ -145,6 +30,7 @@ const createEmployee = async(req, res) => {
 
     const {
         personid,
+        contactid,
         name,
         lastname,
         identidad,
@@ -169,50 +55,51 @@ const createEmployee = async(req, res) => {
     } = req.body
 
     //EN CASO DE SER UNA NUEVA PERSONA
-    if (personid === -1) {
+    if (personid === -1 && contactid === -1) {
 
+        //creamos un objeto de la instancia Contact
         try {
-            //creamos una instancia del objeto Persona
-            newPerson = new Person({
-                name,
-                lastname,
-                identidad,
-                gender,
-                rtn,
-                fec_nac
+            newContact = new Contact({
+                //personid: newPerson._id,
+                phone1,
+                phone2,
+                email,
+                country,
+                city,
+                location,
+                website,
+                facebook,
+                twitter,
+                linkedin,
+                skype,
             })
 
-            //guardamos el usuario en la base de datos
-            if (await newPerson.save()) {
+            if (await newContact.save()) {
 
-                //creamos un objeto de la instancia Contact
                 try {
-                    newContact = new Contact({
-                        personid: newPerson._id,
-                        phone1,
-                        phone2,
-                        email,
-                        country,
-                        city,
-                        location,
-                        website,
-                        facebook,
-                        twitter,
-                        linkedin,
-                        skype,
+                    //creamos una instancia del objeto Persona
+                    newPerson = new Person({
+                        name,
+                        lastname,
+                        identidad,
+                        gender,
+                        rtn,
+                        fec_nac,
+                        contactid: newContact._id,
                     })
 
-                    if (await newContact.save()) {
+                    //guardamos el usuario en la base de datos
+                    if (await newPerson.save()) {
 
                         //creamos un objeto de la instancia Employee
                         try {
 
                             newEmployee = new Employee({
-                                personid: newPerson._id,
                                 codeEmployee,
                                 workLocation,
                                 workPosition,
-                                active
+                                active,
+                                personid: newPerson._id,
                             })
 
                             if (newEmployee.save()) {
@@ -221,8 +108,8 @@ const createEmployee = async(req, res) => {
                                 res.status(201).json({
                                     ok: true,
                                     msg: 'Employee Created',
-                                    newPerson,
                                     newContact,
+                                    newPerson,
                                     newEmployee
                                 })
                             }
@@ -231,30 +118,32 @@ const createEmployee = async(req, res) => {
                             console.log(error)
                             res.status(500).json({
                                 ok: false,
-                                msg: "Error creating Employee"
+                                msg: "Error creating New Employee"
                             })
                         }
+
                     }
+
                 } catch (error) {
+
                     console.log(error)
                     res.status(500).json({
                         ok: false,
-                        msg: "Error creating Contact"
+                        msg: "Error creating New Person"
                     })
                 }
 
             }
-
         } catch (error) {
-
             console.log(error)
             res.status(500).json({
                 ok: false,
-                msg: "Error creating Person"
+                msg: "Error creating New Contact"
             })
         }
+
     } else {
-        console.log("PersonId debe ser -1, POR AHORA");
+        console.log("PersonId y ContactId debe ser -1, POR AHORA");
         res.status(500).json({
             ok: false,
             msg: "PersonId debe ser -1, POR AHORA",
