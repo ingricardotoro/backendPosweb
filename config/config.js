@@ -24,16 +24,16 @@ process.env.SECRET_JWT = process.env.SECRET_JWT || 'secret-dataplus-inventario'
 //=======================
 let urlDB
 
-/*if (process.env.NODE_ENV === 'dev') {
+if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/posweb'
 } else {
     // urlDB = 'mongodb+srv://userdb:yi2FFaqAVTGIeINX@cluster0.vrwtp.mongodb.net/cafe'
     urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb'
-}*/
+}
 
 //urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb'
 //urlDB = 'mongo "mongodb+srv://cluster0.hqere.mongodb.net/posweb" --username userdbposweb'
-urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb?retryWrites=true&w=majority;'
+//urlDB = 'mongodb+srv://userdbposweb:Q5yZC7J5JQygg9n@cluster0.hqere.mongodb.net/posweb?retryWrites=true&w=majority;'
 
 
 
