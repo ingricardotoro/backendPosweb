@@ -20,7 +20,6 @@ const { createSupplier, listSuppliers } = require('../controllers/suppliersContr
 //Rutas para crear nuevos proveedores (POST) .../api/employees
 router.post('/', [
     check('personid', 'El personId es obligatorio').not().isEmpty(),
-    check('contactid', 'El contactId es obligatorio').not().isEmpty(),
     check('codeSupplier', 'El codeSupplier es obligatorio').not().isEmpty(),
     check('companyName', 'El companyName de la empresa es obligatorio').not().isEmpty(),
     check('companyPhone1', 'El companyPhone1 de la empresa es obligatorio').not().isEmpty(),

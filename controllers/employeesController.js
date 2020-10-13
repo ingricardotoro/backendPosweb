@@ -1,18 +1,12 @@
 const Person = require('../models/person')
 const Employee = require('../models/employee')
-const Contact = require('../models/contact')
+    //const Contact = require('../models/contact')
 
 //funcion para listar todos los empleados
 const listEmployee = async(req, res) => {
 
     Employee.find({})
-        .populate({
-            path: 'personid',
-            populate: {
-                path: 'contactid',
-                model: 'Contact'
-            }
-        })
+        .populate('personid')
         .exec(function(err, employees) {
             res.status(200).json({
                 ok: true,
@@ -30,7 +24,6 @@ const createEmployee = async(req, res) => {
 
     const {
         personid,
-        contactid,
         name,
         lastname,
         identidad,
@@ -55,12 +48,17 @@ const createEmployee = async(req, res) => {
     } = req.body
 
     //EN CASO DE SER UNA NUEVA PERSONA
-    if (personid === -1 && contactid === -1) {
+    if (personid === -1) {
 
-        //creamos un objeto de la instancia Contact
         try {
-            newContact = new Contact({
-                //personid: newPerson._id,
+            //creamos una instancia del objeto Persona
+            newPerson = new Person({
+                name,
+                lastname,
+                identidad,
+                gender,
+                rtn,
+                fec_nac,
                 phone1,
                 phone2,
                 email,
@@ -74,76 +72,52 @@ const createEmployee = async(req, res) => {
                 skype,
             })
 
-            if (await newContact.save()) {
+            //guardamos el usuario en la base de datos
+            if (await newPerson.save()) {
 
+                //creamos un objeto de la instancia Employee
                 try {
-                    //creamos una instancia del objeto Persona
-                    newPerson = new Person({
-                        name,
-                        lastname,
-                        identidad,
-                        gender,
-                        rtn,
-                        fec_nac,
-                        contactid: newContact._id,
+
+                    newEmployee = new Employee({
+                        codeEmployee,
+                        workLocation,
+                        workPosition,
+                        active,
+                        personid: newPerson._id,
                     })
 
-                    //guardamos el usuario en la base de datos
-                    if (await newPerson.save()) {
+                    if (newEmployee.save()) {
 
-                        //creamos un objeto de la instancia Employee
-                        try {
-
-                            newEmployee = new Employee({
-                                codeEmployee,
-                                workLocation,
-                                workPosition,
-                                active,
-                                personid: newPerson._id,
-                            })
-
-                            if (newEmployee.save()) {
-
-                                //Empleado creado exitosamente
-                                res.status(201).json({
-                                    ok: true,
-                                    msg: 'Employee Created',
-                                    newContact,
-                                    newPerson,
-                                    newEmployee
-                                })
-                            }
-
-                        } catch (error) {
-                            console.log(error)
-                            res.status(500).json({
-                                ok: false,
-                                msg: "Error creating New Employee"
-                            })
-                        }
-
+                        //Empleado creado exitosamente
+                        res.status(201).json({
+                            ok: true,
+                            msg: 'Employee Created',
+                            newPerson,
+                            newEmployee
+                        })
                     }
 
                 } catch (error) {
-
                     console.log(error)
                     res.status(500).json({
                         ok: false,
-                        msg: "Error creating New Person"
+                        msg: "Error creating New Employee"
                     })
                 }
 
             }
+
         } catch (error) {
+
             console.log(error)
             res.status(500).json({
                 ok: false,
-                msg: "Error creating New Contact"
+                msg: "Error creating New Person"
             })
         }
 
     } else {
-        console.log("PersonId y ContactId debe ser -1, POR AHORA");
+        console.log("PersonId debe ser -1, POR AHORA");
         res.status(500).json({
             ok: false,
             msg: "PersonId debe ser -1, POR AHORA",

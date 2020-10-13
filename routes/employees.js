@@ -20,7 +20,6 @@ const { createEmployee, listEmployee } = require('../controllers/employeesContro
 //Rutas para crear nuevos empleados (POST) .../api/employees
 router.post('/', [
     check('personid', 'El personId es obligatorio').not().isEmpty(),
-    check('contactid', 'El contactId es obligatorio').not().isEmpty(),
     check('codeEmployee', 'El codeEmpleado es obligatorio').not().isEmpty(),
     check('name', 'El nombre de la persona es obligatorio').not().isEmpty(),
     check('lastname', 'El apellido de la persona es obligatorio').not().isEmpty(),
