@@ -12,7 +12,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createSupplier, listSuppliers } = require('../controllers/suppliersController')
+const { createSupplier, listSuppliers, deleteSupplier, updateSupplier } = require('../controllers/suppliersController')
 
 //=======================
 //RUTAS
@@ -31,6 +31,24 @@ router.post('/', [
     validarCampo
 ], createSupplier)
 
+//Ruta para listar los proveedores creados
 router.get('/', listSuppliers)
+
+//Rutas para crear actualizar proveedor por ID (DELETE) .../api/suppliers/delete/id
+router.delete('/delete/:id', deleteSupplier)
+
+//Rutas para crear actualizar proveedor (PUT) .../api/suppliers/update/id
+router.put('/update/:id', [
+    check('personid', 'El personId es obligatorio').not().isEmpty(),
+    check('codeSupplier', 'El codeSupplier es obligatorio').not().isEmpty(),
+    check('companyName', 'El companyName de la empresa es obligatorio').not().isEmpty(),
+    check('companyPhone1', 'El companyPhone1 de la empresa es obligatorio').not().isEmpty(),
+    check('name', 'El nombre de la persona es obligatorio').not().isEmpty(),
+    check('lastname', 'El apellido de la persona es obligatorio').not().isEmpty(),
+    //check('identidad', 'La identidad de la persona es obligatoria').not().isEmpty(),
+    check('gender', 'El gónero de la persona es obligatorio').not().isEmpty(),
+    check('phone1', 'La teléfono de la persona es obligatoria').not().isEmpty(),
+    validarCampo
+], updateSupplier)
 
 module.exports = router

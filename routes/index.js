@@ -13,4 +13,7 @@ app.use('/api/employees', require('./employees'))
 //Ruta para la gestion de proveedores
 app.use('/api/suppliers', require('./suppliers'))
 
+//Ruta para la gestion de Personas
+app.use('/api/person', require('./person'))
+
 module.exports = app
