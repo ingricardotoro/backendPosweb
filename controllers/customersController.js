@@ -1,71 +1,34 @@
 const Person = require('../models/person')
-const Supplier = require('../models/supplier')
+const Customer = require('../models/customer')
     //const Contact = require('../models/contact')
 
-//funcion para listar todos los Proveedores
-const listSuppliers = async(req, res) => {
+//funcion para listar todos los clientes
+const listCustomer = async(req, res) => {
 
-    await Supplier.find({})
+    await Customer.find({})
         .populate('personid')
-        .exec(function(err, suppliers) {
+        .exec(function(err, customers) {
+            //en caso de obtener un error en la Busqueda
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
             res.status(200).json({
                 ok: true,
-                msg: "Lista de Proveedores",
-                suppliers
+                msg: "Lista de Clientes",
+                customers
             })
 
-            console.log(suppliers);
+            console.log(customers);
         });
 
 }
 
-//funcion para buscar los datos de persona por numero de identidad
-const findByIdentidad = async(req, res) => {
-
-    try {
-
-        const identidad = req.params.identidad
-        await Person.find({ identidad })
-            .exec(function(err, person) {
-
-                if (err) {
-                    return res.status(500).json({
-                        ok: false,
-                        err
-                    })
-                }
-
-                if (!person) {
-                    res.status(400).json({
-                        ok: true,
-                        msg: "NO HAY PERSONA CON ESTA IDENTIDAD",
-                        find: false
-                    })
-                }
-
-                res.status(200).json({
-                    ok: true,
-                    msg: "Datos de la Persona",
-                    find: true,
-                    person
-                })
-
-            });
-
-    } catch (error) {
-
-        console.log(error);
-        res.status(400).json({
-            ok: true,
-            msg: "Error Buscando Datos de Persona",
-            find: false
-        })
-    }
-
-}
-
-//funcion para crear nuevos Proveedores
-const createSupplier = async(req, res) => {
+//funcion para crear nuevos clientes
+const createCustomer = async(req, res) => {
 
     const {
         personid,
@@ -86,17 +49,10 @@ const createSupplier = async(req, res) => {
         twitter,
         linkedin,
         skype,
-        codeSupplier,
-        companyName,
-        companyCity,
-        companyLocation,
-        companyPhone1,
-        companyPhone2,
-        companyRtn,
-        companyWebsite,
-        companyLogo,
-        title,
-        workPosition,
+        codeCustomer,
+        payIVA,
+        creditLimit,
+        levelPrice,
         active
     } = req.body
 
@@ -128,33 +84,26 @@ const createSupplier = async(req, res) => {
             //guardamos el usuario en la base de datos
             if (await newPerson.save()) {
 
-                //creamos un objeto de la instancia Proveedor
+                //creamos un objeto de la instancia Customer
                 try {
 
-                    newSupplier = new Supplier({
-                        codeSupplier,
-                        companyName,
-                        companyCity,
-                        companyLocation,
-                        companyPhone1,
-                        companyPhone2,
-                        companyRtn,
-                        companyWebsite,
-                        companyLogo,
-                        title,
-                        workPosition,
+                    newCustomer = new Customer({
+                        codeCustomer,
+                        payIVA,
+                        creditLimit,
+                        levelPrice,
                         active,
                         personid: newPerson._id,
                     })
 
-                    if (newSupplier.save()) {
+                    if (newCustomer.save()) {
 
-                        //Empleado creado exitosamente
+                        //Cliente creado exitosamente
                         res.status(201).json({
                             ok: true,
-                            msg: 'Supplier Created',
+                            msg: 'Cliente creado exitosamente',
                             newPerson,
-                            newSupplier
+                            newCustomer
                         })
                     }
 
@@ -162,7 +111,7 @@ const createSupplier = async(req, res) => {
                     console.log(error)
                     res.status(500).json({
                         ok: false,
-                        msg: "Error creating Supplier"
+                        msg: "Error creating New Customer"
                     })
                 }
 
@@ -173,19 +122,25 @@ const createSupplier = async(req, res) => {
             console.log(error)
             res.status(500).json({
                 ok: false,
-                msg: "Error creating Person"
+                msg: "Error creating New Person"
             })
         }
 
+    } else {
+        console.log("PersonId debe ser -1, POR AHORA");
+        res.status(500).json({
+            ok: false,
+            msg: "PersonId debe ser -1, POR AHORA",
+        })
     }
 
 }
 
-//funcion para la eliminacion de los Proveedores
-const deleteSupplier = async(req, res) => {
+//funcion para la eliminacion de los clientes
+const deleteCustomer = async(req, res) => {
 
     let id = req.params.id
-    await Supplier.findByIdAndRemove(id, (err, supplierDB) => {
+    await Customer.findByIdAndRemove(id, (err, customerDB) => {
 
         //en caso de obtener un error en la eliminacion
         if (err) {
@@ -195,26 +150,26 @@ const deleteSupplier = async(req, res) => {
             })
         }
 
-        //en caso que el id no exita, y no encuentre ningun proveedore a eliminar
-        if (!supplierDB) {
+        //en caso que el id no exita, y no encuentre ningun cliente a eliminar
+        if (!customerDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'El id no existe'
+                    message: 'El id del cliente no existe'
                 }
             })
         }
 
-        //en caso que la categoria ha sido eliminada
+        //en caso que el cliente ha sido eliminado
         res.status(200).json({
             ok: true,
-            message: "Proveedor Eliminado Exitosamente"
+            message: "Cliente Eliminado Exitosamente"
         })
     })
 }
 
-//funcion para modificar Proveedor
-const updateSupplier = async(req, res) => {
+//funcion para modificar clientes
+const updateCustomer = async(req, res) => {
 
     try {
 
@@ -223,19 +178,16 @@ const updateSupplier = async(req, res) => {
         const personid = body.personid
 
         //evitamos que identidad se puedan editar
+
         if (body.identidad) { delete body.identidad }
 
-        let updateSupplier = {
-            codeSupplier: body.codeSupplier,
-            companyName: body.companyName,
-            companyCity: body.companyCity,
-            companyLocation: body.companyLocation,
-            companyPhone1: body.companyPhone1,
-            companyPhone2: body.companyPhone2,
-            companyRtn: body.companyRtn,
-            companyWebsite: body.companyWebsite,
-            companyLogo: body.companyLogo,
-            title: body.title
+        let updateCliente = {
+
+            codeCustomer: body.codeCustomer,
+            payIVA: body.payIVA,
+            creditLimit: body.creditLimit,
+            levelPrice: body.levelPrice,
+            active: body.active
         }
 
         let updatePersona = {
@@ -259,22 +211,23 @@ const updateSupplier = async(req, res) => {
         }
 
         //new : true retorna el nuevo valor actualizado
-        await Supplier.findByIdAndUpdate(id, updateSupplier, {
-                new: true,
+        await Customer.findByIdAndUpdate(id, updateCliente, {
+                new: true, //devuelve el objeto actualizado
             },
-            (err, supplierDB) => {
+            (err, customerDB) => {
 
                 //en caso de tener algun error en save()
                 if (err) {
+                    console.log("ERRORASO");
                     return res.status(500).json({
                         ok: false,
                         err
                     })
                 }
 
-                //evaluaremos si NO se modifico el empleado
-                if (!supplierDB) {
-                    return res.status(400).json({
+                //evaluaremos si NO se modifico el cliente
+                if (!customerDB) {
+                    res.status(500).json({
                         ok: false,
                         err
                     })
@@ -282,30 +235,30 @@ const updateSupplier = async(req, res) => {
 
                 try {
 
-                    Person.findByIdAndUpdate(personid, updatePersona, { new: true, },
+                    Person.findByIdAndUpdate(personid, updatePersona, { new: true, runValidators: true },
                         (err, personDB) => {
 
                             //en caso de tener algun error en save()
                             if (err) {
-                                return res.status(500).json({
+                                res.status(500).json({
                                     ok: false,
                                     err
                                 })
                             }
 
-                            //evaluaremos si NO se modifico el proveedor
+                            //evaluaremos si NO se modifico el empleado
                             if (!personDB) {
-                                return res.status(400).json({
+                                res.status(500).json({
                                     ok: false,
                                     err
                                 })
                             }
 
-                            //en caso de que Si se actualizo el proveedor
+                            //en caso de que Si se actualizo el empleado
                             res.status(200).json({
                                 ok: true,
-                                msj: "Proveedor Actualizado Exitosamente",
-                                proveedorActualizado: supplierDB,
+                                msj: "Cliente Actualizado Exitosamente",
+                                clienteActualizado: customerDB,
                                 datosPersona: personDB
                             })
                         })
@@ -315,8 +268,8 @@ const updateSupplier = async(req, res) => {
                     console.log(error)
                     res.status(500).json({
                         ok: false,
-                        msg: "Error creating Updating Persona de Proveedor"
-                    })     
+                        msg: "Error Actualizando Datos de Persona de Cliente"
+                    })
                 }
 
             })
@@ -327,11 +280,10 @@ const updateSupplier = async(req, res) => {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Error Actualizando Proveedor"
+            msg: "Error Actualizando Cliente"
         })
     }
 
 }
 
-
-module.exports = { createSupplier, listSuppliers, deleteSupplier, updateSupplier }
+module.exports = { createCustomer, listCustomer, deleteCustomer, updateCustomer }
