@@ -8,6 +8,15 @@ const listSuppliers = async(req, res) => {
     await Supplier.find({})
         .populate('personid')
         .exec(function(err, suppliers) {
+
+            //en caso de obtener un error en la Busqueda
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
             res.status(200).json({
                 ok: true,
                 msg: "Lista de Proveedores",
@@ -16,6 +25,55 @@ const listSuppliers = async(req, res) => {
 
             console.log(suppliers);
         });
+
+}
+
+
+//funcion para listar todos los Proveedores filtrados por nombre
+const listSuppliersByName = async(req, res) => {
+
+    let name = req.params.name
+    nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
+
+    if (name) {
+
+        await Supplier.find({})
+            .populate({
+                path: 'personid',
+                match: { name: nameReg },
+            })
+            .exec(function(err, suppliers) {
+
+                //en caso de obtener un error en la Busqueda
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                }
+
+                //verificamos si encontro una persona con estos datos
+                if (suppliers[0].personid === null) {
+
+                    return res.status(200).json({
+                        ok: false,
+                        msg: "NO hay Proveedores con estos datos",
+                        Dato: name
+                    })
+                }
+
+                res.status(200).json({
+                    ok: true,
+                    msg: "Lista de Proveedores filtrados por estos datos",
+                    datos: name,
+                    suppliers
+                })
+
+                console.log(suppliers);
+            });
+    }
+
+
 
 }
 
@@ -316,7 +374,7 @@ const updateSupplier = async(req, res) => {
                     res.status(500).json({
                         ok: false,
                         msg: "Error creating Updating Persona de Proveedor"
-                    })     
+                    })
                 }
 
             })
@@ -334,4 +392,4 @@ const updateSupplier = async(req, res) => {
 }
 
 
-module.exports = { createSupplier, listSuppliers, deleteSupplier, updateSupplier }
+module.exports = { createSupplier, listSuppliers, deleteSupplier, updateSupplier, listSuppliersByName }

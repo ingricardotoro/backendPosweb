@@ -12,7 +12,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createEmployee, listEmployee, deleteEmployee, updateEmployee } = require('../controllers/employeesController')
+const { createEmployee, listEmployee, deleteEmployee, updateEmployee, listEmployeeByName } = require('../controllers/employeesController')
 
 //=======================
 //RUTAS
@@ -31,6 +31,8 @@ router.post('/', [
 
 //Ruta para listar a todos los empleados creados
 router.get('/', listEmployee)
+    //Ruta para listar a todos los empleados creados
+router.get('/:name', listEmployeeByName)
 
 //Rutas para crear actualizar empleado por ID (DELETE) .../api/employees/delete/id
 router.delete('/delete/:id', deleteEmployee)

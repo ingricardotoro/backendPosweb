@@ -9,11 +9,11 @@ let rolesValidos = {
 
 const usuarioSchema = Schema({
 
-    fullname: {
-        type: String,
-        required: [true, 'El nombre completo del usuario es obligarotior']
+    employeeid: {
+        type: Schema.Types.ObjectId,
+        ref: 'Employee',
+        required: [true, 'El id del empleado es obligatorio'],
     },
-
     username: {
         type: String,
         trim: true,

@@ -12,7 +12,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createSupplier, listSuppliers, deleteSupplier, updateSupplier } = require('../controllers/suppliersController')
+const { createSupplier, listSuppliers, deleteSupplier, updateSupplier, listSuppliersByName } = require('../controllers/suppliersController')
 
 //=======================
 //RUTAS
@@ -33,6 +33,9 @@ router.post('/', [
 
 //Ruta para listar los proveedores creados
 router.get('/', listSuppliers)
+    //Ruta para listar los proveedores filtrados por name
+router.get('/:name', listSuppliersByName)
+
 
 //Rutas para crear actualizar proveedor por ID (DELETE) .../api/suppliers/delete/id
 router.delete('/delete/:id', deleteSupplier)

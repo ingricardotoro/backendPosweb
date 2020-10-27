@@ -24,7 +24,61 @@ const listCustomer = async(req, res) => {
 
             console.log(customers);
         });
+}
 
+//funcion para listar todos los clientes
+const listCustomerByName = async(req, res) => {
+
+    let name = req.params.name
+    nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
+
+    if (name) {
+
+        await Customer.find({})
+            .populate({
+                path: 'personid',
+                match: { name: nameReg },
+            })
+
+        .exec(function(err, customers) {
+            //en caso de obtener un error en la Busqueda
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            //verificamos si encontro una persona con estos datos
+            if (customers[0].personid === null) {
+
+                return res.status(200).json({
+                    ok: false,
+                    msg: "NO hay Cientes con estos datos",
+                    Dato: name
+                })
+            }
+
+            res.status(200).json({
+                ok: true,
+                msg: "Lista de Clientes filtrados por estos datos",
+                datos: name,
+                customers
+            })
+
+            console.log(customers);
+        });
+
+    } else {
+
+        res.status(200).json({
+            ok: true,
+            msg: "La variable name en el URL es Obligatoria",
+        })
+
+        console.log("La variable name en el URL es Obligatoria");
+
+    }
 }
 
 //funcion para crear nuevos clientes
@@ -286,4 +340,4 @@ const updateCustomer = async(req, res) => {
 
 }
 
-module.exports = { createCustomer, listCustomer, deleteCustomer, updateCustomer }
+module.exports = { createCustomer, listCustomer, deleteCustomer, updateCustomer, listCustomerByName }

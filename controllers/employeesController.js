@@ -8,6 +8,15 @@ const listEmployee = async(req, res) => {
     await Employee.find({})
         .populate('personid')
         .exec(function(err, employees) {
+
+            //en caso de obtener un error en la Busqueda
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
             res.status(200).json({
                 ok: true,
                 msg: "Lista de Empleados",
@@ -16,6 +25,63 @@ const listEmployee = async(req, res) => {
 
             console.log(employees);
         });
+
+}
+
+//funcion para listar todos los empleados filtrados por nombre
+const listEmployeeByName = async(req, res) => {
+
+    let name = req.params.name
+    nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
+
+    if (name) {
+
+        await Employee.find({})
+            .populate({
+
+                path: 'personid',
+                match: { name: nameReg },
+            })
+            .exec(function(err, employees) {
+
+                //en caso de obtener un error en la Busqueda
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                }
+
+                //verificamos si encontro una persona con estos datos
+                if (employees[0].personid === null) {
+
+                    return res.status(200).json({
+                        ok: false,
+                        msg: "NO hay Empleados con estos datos",
+                        Dato: name
+                    })
+                }
+
+                res.status(200).json({
+                    ok: true,
+                    msg: "Lista de Empleados filtrados por estos datos",
+                    datos: name,
+                    employees
+                })
+
+                console.log(employees);
+            });
+
+    } else {
+
+        res.status(200).json({
+            ok: true,
+            msg: "La variable name en el URL es Obligatoria",
+        })
+
+        console.log("La variable name en el URL es Obligatoria");
+
+    }
 
 }
 
@@ -275,4 +341,4 @@ const updateEmployee = async(req, res) => {
 
 }
 
-module.exports = { createEmployee, listEmployee, deleteEmployee, updateEmployee }
+module.exports = { createEmployee, listEmployee, deleteEmployee, updateEmployee, listEmployeeByName }

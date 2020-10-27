@@ -12,14 +12,17 @@ const router = Router()
 //const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { findByIdentidad } = require('../controllers/personController')
+const { findByIdentidad, findByName } = require('../controllers/personController')
 
 //=======================
 //RUTAS
 //=======================
 
 //Rutas para Buscar personas por numero de identidad (POST) .../api/person/findByIdentidad
-router.post('/findByIdentidad/:identidad', findByIdentidad)
+router.post('/findbyidentidad/:identidad', findByIdentidad)
+
+//Rutas para Buscar personas por nombre (POST) .../api/person/findByIName
+router.post('/findbyname/:name', findByName)
 
 
 module.exports = router
