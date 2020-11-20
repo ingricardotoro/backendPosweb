@@ -392,4 +392,4 @@ const updateSupplier = async(req, res) => {
 }
 
 
-module.exports = { createSupplier, listSuppliers, deleteSupplier, updateSupplier, listSuppliersByName }
+module.exports = { createSupplier, listSuppliers, deleteSupplier, updateSupplier, listSuppliersByName, findByIdentidad }

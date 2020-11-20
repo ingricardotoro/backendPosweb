@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const mongooseUniqueValidator = require('mongoose-unique-validator');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const customerSchema = Schema({
@@ -12,7 +11,7 @@ const customerSchema = Schema({
     codeCustomer: {
         type: String,
         trim: true,
-        required: [true, 'El codigo del empleado es obligatorio'],
+        required: [true, 'El codigo del cliente es obligatorio'],
         unique: true
     },
     payIVA: {
