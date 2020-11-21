@@ -22,6 +22,54 @@ const listProduct = async(req, res) => {
         });
 }
 
+const listProductByName = async(req, res) => {
+
+    let name = req.params.name
+    nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
+
+    if (name) {
+
+        await Product.find({ name: nameReg })
+            .exec(function(err, products) {
+                //en caso de obtener un error en la Busqueda
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                }
+
+                //verificamos si encontro una persona con estos datos
+                if (products[0].name === null) {
+
+                    return res.status(200).json({
+                        ok: false,
+                        msg: "NO hay Productos con estos datos",
+                        Dato: name
+                    })
+                }
+
+                res.status(200).json({
+                    ok: true,
+                    msg: "Lista de Productos filtrados por estos datos",
+                    datos: name,
+                    products
+                })
+
+            });
+
+    } else {
+
+        res.status(200).json({
+            ok: true,
+            msg: "La variable name en el URL es Obligatoria",
+        })
+
+        console.log("La variable name en el URL es Obligatoria");
+
+    }
+}
+
 //funcion para crear nuevos categorias
 const createProduct = async(req, res) => {
 
@@ -206,4 +254,4 @@ const updateProduct = async(req, res) => {
 
 }
 
-module.exports = { listProduct, createProduct, deleteProduct, updateProduct }
+module.exports = { listProduct, createProduct, deleteProduct, updateProduct, listProductByName }
