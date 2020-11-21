@@ -11,14 +11,14 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { listCategories, createCategory, deleteCategory, updateCategory } = require('../controllers/categoriesController')
+const { listCategory, createCategory, deleteCategory, updateCategory } = require('../controllers/categoriesController')
 
 //=======================
 //RUTAS
 //=======================
 
 //Ruta para listar a todos las categorias creados
-router.get('/', listCategories)
+router.get('/', listCategory)
 
 //Rutas para crear nuevas categorias (POST) .../api/categories
 router.post('/', [

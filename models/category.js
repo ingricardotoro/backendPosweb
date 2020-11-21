@@ -21,8 +21,7 @@ const categorySchema = Schema({
         trim: true
     },
     parentId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category',
+        type: Number,
         required: [true, 'El parentId es obligatorio, default 0'],
         default: 0
 

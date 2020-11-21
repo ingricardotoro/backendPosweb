@@ -29,7 +29,6 @@ const createProduct = async(req, res) => {
         codeProduct,
         name,
         description,
-        parentId,
         categoryId,
         supplierId,
         price1,
@@ -55,7 +54,6 @@ const createProduct = async(req, res) => {
         codeProduct,
         name,
         description,
-        parentId,
         categoryId,
         supplierId,
         price1,
@@ -125,7 +123,7 @@ const deleteProduct = async(req, res) => {
         //en caso que el Categoria ha sido eliminada
         res.status(200).json({
             ok: true,
-            message: "Categoria Eliminada Exitosamente"
+            message: "Producto Eliminado Exitosamente"
         })
     })
 }
@@ -143,7 +141,6 @@ const updateProduct = async(req, res) => {
             codeProduct: body.codeProduct,
             name: body.name,
             description: body.description,
-            parentId: body.parentId,
             categoryId: body.categoryId,
             supplierId: body.supplierId,
             price: body.price1,
