@@ -35,7 +35,7 @@ router.get('/', listCustomer)
     //Ruta para buscar los clientes filtrados por nombre enviado por URL
 router.get('/:name', listCustomerByName)
 
-//Rutas para crear actualizar cliente por ID (DELETE) .../api/customer/delete/id
+//Rutas para crear Eliminar cliente por ID (DELETE) .../api/customer/delete/id
 router.delete('/delete/:id', deleteCustomer)
 
 //Rutas para crear actualizar clientes (PUT) .../api/customers/update/id

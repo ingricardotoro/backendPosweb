@@ -19,6 +19,12 @@ app.use('/api/suppliers', require('./suppliers'))
 //Ruta para la gestion de Clientes
 app.use('/api/customers', require('./customers'))
 
+//Ruta para la gestion de Categorias
+app.use('/api/categories', require('./categories'))
+
+//Ruta para la gestion de Productos
+app.use('/api/products', require('./products'))
+
 
 
 module.exports = app

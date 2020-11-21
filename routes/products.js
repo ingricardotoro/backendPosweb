@@ -1,0 +1,34 @@
+//===============================
+//ARCHIVO CON TODAS LAS RUTAS DE PRODUCTOS
+//Rutas : localhost:4000/api/products
+//===============================
+
+const { Router } = require('express')
+const router = Router()
+const { check } = require('express-validator')
+
+//importamos Middleware para verificar los errores que viajan en req
+const { validarCampo } = require('../middlewares/validarCampo')
+
+//importamos los controladores que usaran en las rutas
+const { listProducts, createProduct } = require('../controllers/productsController')
+
+//=======================
+//RUTAS
+//=======================
+//Ruta para listar a todos los productos creados
+router.get('/', listProducts)
+
+//Rutas para crear nuevos productos (POST) .../api/products
+router.post('/', [
+    check('name', 'El name del producto es obligatorio').not().isEmpty(),
+    check('codeProduct', 'el codigo de producto es obligatorio').not().isEmpty(),
+    check('categoryId', 'el categoryId es obligatorio').not().isEmpty(),
+    check('supplierId', 'el supplierId de producto es obligatorio').not().isEmpty(),
+    check('price1', 'el price1 de producto es obligatorio').not().isEmpty(),
+
+    validarCampo
+], createProduct)
+
+
+module.exports = router
