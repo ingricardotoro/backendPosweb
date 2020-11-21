@@ -1,6 +1,6 @@
 const Category = require('../models/category')
 
-//funcion para listar todos los clientes
+//funcion para listar todas las Categorias
 const listCategory = async(req, res) => {
 
     await Category.find({})
@@ -62,7 +62,7 @@ const createCategory = async(req, res) => {
 
 }
 
-//funcion para la eliminacion de los clientes
+//funcion para la eliminacion de las Categorias
 const deleteCategory = async(req, res) => {
 
     let id = req.params.id
@@ -101,9 +101,7 @@ const updateCategory = async(req, res) => {
 
         let id = req.params.id
         let body = req.body
-            //const personid = body.personid
 
-        //evitamos que identidad se puedan editar
         let updateCategory = {
 
             codeCategory: body.codeCategory,
@@ -156,4 +154,5 @@ const updateCategory = async(req, res) => {
     }
 
 }
+
 module.exports = { createCategory, listCategory, deleteCategory, updateCategory }

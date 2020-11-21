@@ -11,7 +11,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { listProducts, createProduct } = require('../controllers/productsController')
+const { listProducts, createProduct, deleteProduct, updateProduct } = require('../controllers/productsController')
 
 //=======================
 //RUTAS
@@ -26,9 +26,22 @@ router.post('/', [
     check('categoryId', 'el categoryId es obligatorio').not().isEmpty(),
     check('supplierId', 'el supplierId de producto es obligatorio').not().isEmpty(),
     check('price1', 'el price1 de producto es obligatorio').not().isEmpty(),
-
     validarCampo
 ], createProduct)
+
+//Rutas para crear Eliminar Producto por ID (DELETE) .../api/products/delete/id
+router.delete('/delete/:id', deleteProduct)
+
+//Rutas para actualizar productos (PUT) .../api/products/update/id
+router.put('/update/:id', [
+    check('name', 'El name del producto es obligatorio').not().isEmpty(),
+    check('codeProduct', 'el codigo de producto es obligatorio').not().isEmpty(),
+    check('categoryId', 'el categoryId es obligatorio').not().isEmpty(),
+    check('supplierId', 'el supplierId de producto es obligatorio').not().isEmpty(),
+    check('price1', 'el price1 de producto es obligatorio').not().isEmpty(),
+    validarCampo
+], updateProduct)
+
 
 
 module.exports = router
