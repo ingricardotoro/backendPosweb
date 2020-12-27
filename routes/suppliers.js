@@ -37,7 +37,7 @@ router.get('/', listSuppliers)
 router.get('/:name', listSuppliersByName)
 
 
-//Rutas para crear actualizar proveedor por ID (DELETE) .../api/suppliers/delete/id
+//Rutas para crear eliminar proveedor por ID (DELETE) .../api/suppliers/delete/id
 router.delete('/delete/:id', deleteSupplier)
 
 //Rutas para crear actualizar proveedor (PUT) .../api/suppliers/update/id
