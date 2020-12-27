@@ -32,7 +32,7 @@ router.post('/', [
 
 //Ruta para listar a todos los clientes creados
 router.get('/', listCustomer)
-    //Ruta para buscar los clientes filtrados por nombre enviado por URL
+//Ruta para buscar los clientes filtrados por nombre enviado por URL
 router.get('/:name', listCustomerByName)
 
 //Rutas para crear Eliminar cliente por ID (DELETE) .../api/customer/delete/id
