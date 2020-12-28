@@ -67,7 +67,6 @@ const listWarehouseByName = async(req, res) => {
     }
 
 
-
 }
 
 //funcion para crear nuevas Bodegas

@@ -28,6 +28,12 @@ app.use('/api/products', require('./products'))
 //Ruta para la gestion de Bodegas
 app.use('/api/warehouses', require('./warehouses'))
 
+//Ruta para la gestion de nuevos productos a las ordenes de compras
+app.use('/api/purchase_order_details', require('./purchaseorderdetails'))
+
+//Ruta para la gestionar las ordenes de compras
+app.use('/api/purchase_orden', require('./purchaseorderdetails'))
+
 
 
 module.exports = app
