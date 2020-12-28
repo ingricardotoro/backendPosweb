@@ -25,6 +25,9 @@ app.use('/api/categories', require('./categories'))
 //Ruta para la gestion de Productos
 app.use('/api/products', require('./products'))
 
+//Ruta para la gestion de Bodegas
+app.use('/api/warehouses', require('./warehouses'))
+
 
 
 module.exports = app
