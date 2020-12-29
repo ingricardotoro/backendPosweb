@@ -12,35 +12,51 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createWarehouse, listWarehouse, deleteWarehouse, updateWarehouse, listWarehouseByName } = require('../controllers/purchasesordersController')
+const { createPO, listPO, deletePO, updatePO, listPOByCode } = require('../controllers/purchasesordersController')
 
 //=======================
 //RUTAS
 //=======================
-//Rutas para crear nuevas Bodegas (POST) .../api/warehouse
+//Rutas para crear nuevas Bodegas (POST) .../api/purchases_orders
 router.post('/', [
-    check('codeWarehouse', 'El codeWarehouse es obligatorio').not().isEmpty(),
-    check('warehouseName', 'El warehouseName es obligatorio').not().isEmpty(),
+    check('codePurchaseOrder', 'El codePurchaseOrder es obligatorio').not().isEmpty(),
+    check('supplierId', 'El supplierId es obligatorio').not().isEmpty(),
     check('employeeId', 'El employeeId es obligatorio').not().isEmpty(),
+    check('datePurchaseOrder', 'El datePurchaseOrder es obligatorio').not().isEmpty(),
+    check('total', 'El total es obligatorio').not().isEmpty(),
+    check('status', 'El status es obligatorio').not().isEmpty(),
+    check('typePaid', 'El typePaid es obligatorio').not().isEmpty(),
+    check('typeShip', 'El typeShip es obligatorio').not().isEmpty(),
+    check('dateShip', 'El dateShip es obligatorio').not().isEmpty(),
+    check('costShip', 'El costShip es obligatorio').not().isEmpty(),
+    check('warehouseId', 'El warehouseId es obligatorio').not().isEmpty(),
     validarCampo
-], createWarehouse)
+], createPO)
 
-//Ruta para listar a todos las bodegas creadas
-router.get('/', listWarehouse)
+//Ruta para listar a todas las ordenes de compra
+router.get('/', listPO)
 
-//Ruta para listar a todos las bodegas creadas filtradas por nombre
-router.get('/:name', listWarehouseByName)
+//Ruta para listar a todos las ordenes de compra creadas filtradas por codePurchaseOrder
+router.get('/:codePurchaseOrder', listPOByCode)
 
-//Rutas para crear eliminar bodega por ID (DELETE) .../api/warehouse/delete/id
-router.delete('/delete/:id', deleteWarehouse)
+//Rutas para crear eliminar orden de compra por ID (DELETE) .../api/purchases_orders/delete/id
+router.delete('/delete/:id', deletePO)
 
-//Rutas para crear actualizar bodegas (PUT) .../api/warehouse/update/id
+//Rutas para crear actualizar ordenes de compras (PUT) .../api/purchases_orders/update/id
 router.put('/update/:id', [
-    check('codeWarehouse', 'El codeWarehouse es obligatorio').not().isEmpty(),
-    check('warehouseName', 'El warehouseName es obligatorio').not().isEmpty(),
+    check('codePurchaseOrder', 'El codePurchaseOrder es obligatorio').not().isEmpty(),
+    check('supplierId', 'El supplierId es obligatorio').not().isEmpty(),
     check('employeeId', 'El employeeId es obligatorio').not().isEmpty(),
+    check('datePurchaseOrder', 'El datePurchaseOrder es obligatorio').not().isEmpty(),
+    check('total', 'El total es obligatorio').not().isEmpty(),
+    check('status', 'El status es obligatorio').not().isEmpty(),
+    check('typePaid', 'El typePaid es obligatorio').not().isEmpty(),
+    check('typeShip', 'El typeShip es obligatorio').not().isEmpty(),
+    check('dateShip', 'El dateShip es obligatorio').not().isEmpty(),
+    check('costShip', 'El costShip es obligatorio').not().isEmpty(),
+    check('warehouseId', 'El warehouseId es obligatorio').not().isEmpty(),
     validarCampo
-], updateWarehouse)
+], updatePO)
 
 
 module.exports = router

@@ -32,7 +32,7 @@ app.use('/api/warehouses', require('./warehouses'))
 app.use('/api/purchase_order_details', require('./purchaseorderdetails'))
 
 //Ruta para la gestionar las ordenes de compras
-app.use('/api/purchase_orden', require('./purchaseorderdetails'))
+app.use('/api/purchases_orders', require('./purchasesOrders'))
 
 
 

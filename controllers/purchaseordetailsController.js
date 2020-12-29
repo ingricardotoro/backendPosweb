@@ -1,4 +1,3 @@
-const Person = require('../models/person')
 const POD = require('../models/purchaseOrderDetails')
 
 //funcion para buscar todos los productos asignados a un ID de orden de compra
