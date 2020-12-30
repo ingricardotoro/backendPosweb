@@ -12,7 +12,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createPO, listPO, deletePO, updatePO, listPOByCode } = require('../controllers/purchasesordersController')
+const { createPO, listPO, deletePO, updatePO, listPOByCode, lastCodePO } = require('../controllers/purchasesordersController')
 
 //=======================
 //RUTAS
@@ -38,6 +38,9 @@ router.get('/', listPO)
 
 //Ruta para listar a todos las ordenes de compra creadas filtradas por codePurchaseOrder
 router.get('/:codePurchaseOrder', listPOByCode)
+
+//Ruta para obtener el ultimo codigo de las ordenes de compra creadas
+router.post('/lastcode', lastCodePO)
 
 //Rutas para crear eliminar orden de compra por ID (DELETE) .../api/purchases_orders/delete/id
 router.delete('/delete/:id', deletePO)

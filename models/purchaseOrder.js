@@ -4,7 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const purchaseOrderSchema = Schema({
 
     codePurchaseOrder: {
-        type: String,
+        type: Number,
         unique: true,
         required: [true, 'El código de la Compra es obligatorio']
     },

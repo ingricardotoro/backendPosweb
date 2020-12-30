@@ -68,6 +68,40 @@ const listPOByCode = async(req, res) => {
 
 }
 
+//Funcion para obtener el ultimo valor de codigo 
+const lastCodePO = async(req, res) => {
+
+    await PO.find({})
+        .sort({ "codePurchaseOrder": -1 })
+        .limit(1)
+        .exec(function(err, lastCode) {
+
+            let maxCode = 0
+            if (lastCode[0] === undefined) { //en caso de ser el primer codigo
+                maxCode = 0
+            } else [
+                maxCode = lastCode[0].codePurchaseOrder
+            ]
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            res.status(200).json({
+                ok: true,
+                msg: "Ultimo Valor del Codigo de Ordenes",
+                lastCode: maxCode
+            })
+
+            console.log(maxCode);
+        });
+
+    //const maxCode = await PO.find({}).sort({ codePurchaseOrder: -1 }).limit(1).then(codes => codes[0].codePurchaseOrder);
+}
+
 //funcion para crear nuevas Ordenes de compras
 const createPO = async(req, res) => {
 
@@ -232,4 +266,4 @@ const updatePO = async(req, res) => {
 }
 
 
-module.exports = { createPO, listPO, deletePO, updatePO, listPOByCode }
+module.exports = { createPO, listPO, deletePO, updatePO, listPOByCode, lastCodePO }
