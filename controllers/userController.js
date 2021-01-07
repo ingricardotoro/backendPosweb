@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { generarJwt } = require('../helpers/jwt');
 
 const User = require('../models/user')
 
@@ -106,4 +107,17 @@ const deleteUser = async(req, res) => {
 
 }
 
-module.exports = { createUser, listUsers, deleteUser }
+const revalidarToken = async(req, res) => {
+
+    const { uid, name } = req
+
+    const token = await generarJwt(uid, name)
+
+    res.json({
+        ok: true,
+        token
+    })
+
+}
+
+module.exports = { createUser, listUsers, deleteUser, revalidarToken }

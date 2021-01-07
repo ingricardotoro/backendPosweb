@@ -11,7 +11,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createUser, listUsers, deleteUser } = require('../controllers/userController')
+const { createUser, listUsers, deleteUser, revalidarToken } = require('../controllers/userController')
 const { validarJwt } = require('../middlewares/validarJwt')
 
 
@@ -30,7 +30,11 @@ router.post('/', [
 router.get('/', validarJwt, listUsers)
 
 //Rutas para crear Eliminar usuarios por ID (DELETE) .../api/users/delete/id
-router.delete('/delete/:id', deleteUser)
+router.delete('/delete/:id', validarJwt, deleteUser)
+
+
+//Rutas para crear Eliminar usuarios por ID (DELETE) .../api/users/delete/id
+router.delete('/renew', revalidarToken)
 
 
 module.exports = router
