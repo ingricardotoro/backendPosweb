@@ -14,12 +14,20 @@ const purchaseSchema = Schema({
         ref: 'Employee',
         required: [true, 'El id del Empleado es obligatorio'],
     },
+    codeInvoice: {
+        type: String,
+        required: [true, 'El codigo de factura de compra es obligatorio'],
+    },
 
     datePurchase: {
         type: Date,
         required: [true, 'La fecha de la compra es obligatorio'],
     },
 
+    lotePurchase: {
+        type: String,
+        required: [true, 'El Lote de compra es obligatorio'],
+    },
     typePaid: {
         type: String,
         required: [true, 'El Tipo de Pago de la orden es obligatorio'],
@@ -35,9 +43,9 @@ const purchaseSchema = Schema({
         required: [true, 'El salde de credito de Pago de la compra es obligatorio'],
     },
 
-    entered: {
-        type: Boolean,
-        default: false
+    statusPurchase: {
+        type: String,
+        default: 'Ingresada'
     },
 
     invoice: {
