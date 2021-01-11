@@ -6,7 +6,7 @@ const purchaseSchema = Schema({
     purchaseOrderId: {
         type: Schema.Types.ObjectId,
         ref: 'PurchaseOrder',
-        required: [true, 'El id de la orden de compra es obligatorio'],
+        //required: [true, 'El id de la orden de compra es obligatorio'],
     },
 
     employeeId: {
@@ -23,11 +23,6 @@ const purchaseSchema = Schema({
         type: Date,
         required: [true, 'La fecha de la compra es obligatorio'],
     },
-
-    lotePurchase: {
-        type: String,
-        required: [true, 'El Lote de compra es obligatorio'],
-    },
     typePaid: {
         type: String,
         required: [true, 'El Tipo de Pago de la orden es obligatorio'],
@@ -35,7 +30,7 @@ const purchaseSchema = Schema({
 
     creditDays: {
         type: Number,
-        required: [true, 'Los dias de credito de Pago de la compra es obligatorio'],
+        //required: [true, 'Los dias de credito de Pago de la compra es obligatorio'],
     },
 
     Balance: {
@@ -46,10 +41,6 @@ const purchaseSchema = Schema({
     statusPurchase: {
         type: String,
         default: 'Ingresada'
-    },
-
-    invoice: {
-        type: Number
     },
 
 

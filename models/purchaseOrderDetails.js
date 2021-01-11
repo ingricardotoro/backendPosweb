@@ -24,7 +24,7 @@ const purchaseOrderDetailsSchema = Schema({
     },
     tax: {
         type: Number,
-        required: [true, 'El teléfono es obligatorio'],
+        required: [true, 'El impuesto es obligatorio'],
     },
     discount: {
         type: Number,
