@@ -106,9 +106,8 @@ const lastCodeP = async(req, res) => {
 const createP = async(req, res) => {
 
     const {
-        purchaseOrderId,
-        warehouseId,
         codePurchase,
+        warehouseId,
         employeeId,
         codeInvoice,
         datePurchase,
@@ -119,9 +118,8 @@ const createP = async(req, res) => {
 
     //creamos una instancia del objeto Orden de Compra
     newPurchase = new P({
-        purchaseOrderId,
-        warehouseId,
         codePurchase,
+        warehouseId,
         employeeId,
         codeInvoice,
         datePurchase,
@@ -198,9 +196,9 @@ const updateP = async(req, res) => {
         let body = req.body
 
         let updatePurchase = {
-            purchaseOrderId: body.purchaseOrderId,
-            warehouseId: body.warehouseId,
+
             codePurchase: body.codePurchase,
+            warehouseId: body.warehouseId,
             employeeId: body.employeeId,
             codeInvoice: body.codeInvoice,
             datePurchase: body.datePurchase,
