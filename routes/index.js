@@ -34,6 +34,11 @@ app.use('/api/purchase_order_details', require('./purchaseorderdetails'))
 //Ruta para la gestionar las ordenes de compras
 app.use('/api/purchases_orders', require('./purchasesOrders'))
 
+//Ruta para la gestionar las compras
+app.use('/api/purchases', require('./purchases'))
+
+//Ruta para la gestionar los productos  de compras
+app.use('/api/purchases_details', require('./purchasesdetails'))
 
 
 module.exports = app
