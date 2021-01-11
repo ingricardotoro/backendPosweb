@@ -8,12 +8,23 @@ const purchaseSchema = Schema({
         ref: 'PurchaseOrder',
         //required: [true, 'El id de la orden de compra es obligatorio'],
     },
+    warehouseId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Warehouse',
+        //required: [true, 'El id de la orden de compra es obligatorio'],
+    },
+    codePurchase: {
+        type: Number,
+        unique: true,
+        required: [true, 'El código de la Compra es obligatorio']
+    },
 
     employeeId: {
         type: Schema.Types.ObjectId,
         ref: 'Employee',
         required: [true, 'El id del Empleado es obligatorio'],
     },
+
     codeInvoice: {
         type: String,
         required: [true, 'El codigo de factura de compra es obligatorio'],

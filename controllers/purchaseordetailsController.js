@@ -18,7 +18,7 @@ const listPOD = async(req, res) => {
 
                 if (!productsDetails) {
                     res.status(400).json({
-                        ok: true,
+                        ok: false,
                         msg: "NO HAY Productos registrados con este ID",
                         find: false
                     })
@@ -37,7 +37,7 @@ const listPOD = async(req, res) => {
 
         console.log(error);
         res.status(400).json({
-            ok: true,
+            ok: false,
             msg: "Error Buscando Productos por Id de Orden",
             find: false
         })

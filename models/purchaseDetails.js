@@ -47,7 +47,7 @@ const purchaseDetailsSchema = Schema({
         required: [true, 'El Descuento es obligatorio'],
     },
     detail: {
-        type: string,
+        type: String,
     },
 
 

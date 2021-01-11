@@ -32,7 +32,7 @@ router.post('/', [
 //Ruta para listar a todas las compra
 router.get('/', listP)
 
-//Ruta para listar a todos las ordenes de compra creadas filtradas por codePurchaseOrder
+//Ruta para buscar una compra filtradas por codePurchase
 router.get('/:codePurchase', listPByCode)
 
 //Ruta para obtener el ultimo codigo de las ordenes de compra creadas
