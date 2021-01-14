@@ -18,7 +18,7 @@ const listInventory = async(req, res) => {
 
             res.status(200).json({
                 ok: true,
-                msg: "Lista de las registos del invetario",
+                msg: "Lista de las registos del inventario",
                 registros
             })
 
@@ -39,14 +39,14 @@ const registerInventory = async(req, res) => {
     await Inventory.find({ productId })
 
     .exec(function(err, registro) {
-
-        //en caso de obtener un error en la Busqueda
+        console.log(registro)
+            //en caso de obtener un error en la Busqueda
         if (err) {
             return console.log("Error buscando ProductID=", err)
         }
 
         //verificamos si encontro un registro con este ID de producto
-        if (registro[0].productId === null) {
+        if (registro.length === 0) {
             //en caso de ser la primera vez que se registra este producto
             newRegistro = new Inventory({
                 warehouseId: warehouseId,
@@ -60,7 +60,7 @@ const registerInventory = async(req, res) => {
 
             try {
 
-                if (newInventory.save()) {
+                if (newRegistro.save()) {
                     console.log("Registro de Inventario Creado")
                     res.status(200).json({
                         ok: true,
@@ -86,8 +86,17 @@ const registerInventory = async(req, res) => {
 
             try {
 
+                let valorActualExistencias = parseFloat(registro[0].existencias)
+                let nuevoValorExistencias = parseFloat(valorActualExistencias) + parseFloat(cuantity)
+
+                let valorActualEntrada = parseFloat(registro[0].entradas)
+                let nuevoValorEntrada = parseFloat(valorActualEntrada) + parseFloat(cuantity)
+
                 //new : true retorna el nuevo valor actualizado
-                Inventory.findByIdAndUpdate(registro._id, { entradas: cuantity }, {
+                Inventory.findByIdAndUpdate(registro[0]._id, {
+                        existencias: parseFloat(nuevoValorExistencias),
+                        entradas: parseFloat(nuevoValorEntrada)
+                    }, {
                         new: true,
                     },
                     (err, registroInv) => {
@@ -100,7 +109,7 @@ const registerInventory = async(req, res) => {
                             })
                         }
 
-                        //evaluaremos si NO se modifico el empleado
+                        //evaluaremos si NO se modifico el registro
                         if (!registroInv) {
                             return res.status(400).json({
                                 ok: false,
@@ -137,7 +146,7 @@ const findInventoryByProductId = async(req, res) => {
 
     let productId = req.params.productId
         //nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
-
+    console.log(productId)
     await Inventory.find({ productId })
         .exec(function(err, registro) {
             //en caso de obtener un error en la Busqueda
@@ -149,7 +158,7 @@ const findInventoryByProductId = async(req, res) => {
             }
 
             //verificamos si encontro una persona con estos datos
-            if (registro[0].productId === null) {
+            if (registro.productId === null) {
 
                 return res.status(400).json({
                     ok: false,

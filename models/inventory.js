@@ -10,8 +10,8 @@ const inventorySchema = Schema({
     },
     productId: {
         type: Schema.Types.ObjectId,
-        ref: 'Employee',
-        required: [true, 'El id del Empleado Responsable es obligatorio'],
+        ref: 'Product',
+        required: [true, 'El id del Producto es obligatorio'],
     },
     valorInicial: {
         type: Number,
