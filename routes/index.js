@@ -40,5 +40,8 @@ app.use('/api/purchases', require('./purchases'))
 //Ruta para la gestionar los productos  de compras
 app.use('/api/purchases_details', require('./purchasesdetails'))
 
+//Ruta para la gestionar el control de inventario
+app.use('/api/inventory', require('./inventory'))
+
 
 module.exports = app
