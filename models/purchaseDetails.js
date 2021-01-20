@@ -14,42 +14,49 @@ const purchaseDetailsSchema = Schema({
         ref: 'Product',
         required: [true, 'El id del Producto es obligatorio'],
     },
+
     cuantityRequered: {
         type: Number,
         //required: [true, 'La cantidad de producto solicitado es obligatorio'],
     },
+
     cuantityReceived: {
         type: Number,
         required: [true, 'La cantidad de producto recibida es obligatorio'],
     },
+
     lote: {
         type: String,
-
     },
+
     dateExpiration: {
         type: Date,
         //required: [true, 'La fecha de la orden de compra es obligatorio'],
     },
+
     dateToSale: {
         type: Date,
         //required: [true, 'La fecha de la orden de compra es obligatorio'],
     },
+
     cost: {
         type: Number,
         required: [true, 'El precio del producto es obligatorio'],
     },
+
     tax: {
         type: Number,
         required: [true, 'El impuesto es obligatorio'],
     },
+
     discount: {
         type: Number,
         required: [true, 'El Descuento es obligatorio'],
     },
+
     detail: {
         type: String,
     },
-
 
 }, { timestamps: true })
 

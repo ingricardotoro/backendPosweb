@@ -7,6 +7,8 @@ const listPOD = async(req, res) => {
 
         const purchaseOrderId = req.params.purchaseorderId
         await POD.find({ purchaseOrderId })
+            .populate('purchaseOrderId')
+            .populate('productId')
             .exec(function(err, productsDetails) {
 
                 if (err) {
