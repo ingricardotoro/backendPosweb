@@ -12,7 +12,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createArea, listArea, deleteArea, updateArea, listAreaByName } = require('../controllers/areaController')
+const { createArea, listArea, deleteArea, updateArea, listAreaByName } = require('../controllers/areasController')
 
 //=======================
 //RUTAS

@@ -48,7 +48,7 @@ const registerInventory = async(req, res) => {
         //verificamos si encontro un registro con este ID de producto
         if (registro.length === 0) {
             //en caso de ser la primera vez que se registra este producto
-            newRegistro = new Inventory({
+                newRegistro = new Inventory({
                 warehouseId: warehouseId,
                 productId: productId,
                 valorInicial: parseFloat(cuantity),
