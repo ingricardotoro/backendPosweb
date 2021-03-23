@@ -26,19 +26,17 @@ const listLocation = async(req, res) => {
 const createLocation = async(req, res) => {
 
     const {
-        codeLocation,
-        name,
-        description,
-        parentId,
-        active
+        area_id,
+        purchase_id,
+        product_id,
+        amount,
     } = req.body
 
     newLocation = new Location({
-        codeLocation,
-        name,
-        description,
-        parentId,
-        active
+        area_id,
+        purchase_id,
+        product_id,
+        amount,
     })
 
     //creamos un objeto de la instancia Ubicaciones
@@ -104,11 +102,10 @@ const updateLocation = async(req, res) => {
 
         let updateLocation = {
 
-            codeLocation: body.codeLocation,
-            name: body.name,
-            description: body.description,
-            parentId: body.parentId,
-            active: body.active
+            area_id: body.area_id,
+            purchase_id: body.purchase_id,
+            product_id: body.product_id,
+            amount: body.amount,
         }
 
         //new : true retorna el nuevo valor actualizado
@@ -137,7 +134,7 @@ const updateLocation = async(req, res) => {
                 //en caso de que Si se actualizo la Ubicacion
                 res.status(200).json({
                     ok: true,
-                    msj: "Categoria Actualizada Exitosamente",
+                    msj: "Ubicacion Actualizada Exitosamente",
                     ubicacionActualizada: locationDB,
                 })
 

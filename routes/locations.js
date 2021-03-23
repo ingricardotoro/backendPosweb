@@ -22,8 +22,10 @@ router.get('/', listLocation)
 
 //Rutas para crear nuevas ubicaciones (POST) .../api/locations
 router.post('/', [
-    check('name', 'El name es obligatorio').not().isEmpty(),
-    check('codeLocation', 'el codeLocation').not().isEmpty(),
+    check('area_id', 'El area_id es obligatorio').not().isEmpty(),
+    check('purchase_id', 'el purchase_id').not().isEmpty(),
+    check('product_id', 'el product_id').not().isEmpty(),
+    check('amount', 'el amount').not().isEmpty(),
     validarCampo
 ], createLocation)
 
@@ -32,8 +34,10 @@ router.delete('/delete/:id', deleteLocation)
 
 //Rutas para Actualzar las ubicaciones (PUT) .../api/locations/update/id
 router.put('/update/:id', [
-    check('name', 'El name es obligatorio').not().isEmpty(),
-    check('codeLocation', 'el codeLocation').not().isEmpty(),
+    check('area_id', 'El area_id es obligatorio').not().isEmpty(),
+    check('purchase_id', 'el purchase_id').not().isEmpty(),
+    check('product_id', 'el product_id').not().isEmpty(),
+    check('amount', 'el amount').not().isEmpty(),
     validarCampo
 ], updateLocation)
 

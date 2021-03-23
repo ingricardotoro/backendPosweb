@@ -107,24 +107,26 @@ const createP = async(req, res) => {
 
     const {
         codePurchase,
-        warehouseId,
+        location_id,
         employeeId,
         codeInvoice,
         datePurchase,
         typePaid,
-        Balance,
+        creditDays,
+        balance,
         statusPurchase,
     } = req.body
 
     //creamos una instancia del objeto Orden de Compra
     newPurchase = new P({
         codePurchase,
-        warehouseId,
+        location_id,
         employeeId,
         codeInvoice,
         datePurchase,
         typePaid,
-        Balance,
+        creditDays,
+        balance,
         statusPurchase,
     })
 
@@ -198,12 +200,12 @@ const updateP = async(req, res) => {
         let updatePurchase = {
 
             codePurchase: body.codePurchase,
-            warehouseId: body.warehouseId,
+            location_id: body.location_id,
             employeeId: body.employeeId,
             codeInvoice: body.codeInvoice,
             datePurchase: body.datePurchase,
             typePaid: body.typePaid,
-            Balance: body.Balance,
+            balance: body.balance,
             statusPurchase: body.statusPurchase,
         }
 

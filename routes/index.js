@@ -26,7 +26,7 @@ app.use('/api/categories', require('./categories'))
 app.use('/api/products', require('./products'))
 
 //Ruta para la gestion de Bodegas
-app.use('/api/warehouses', require('./warehouses'))
+app.use('/api/areas', require('./areas'))
 
 //Ruta para la gestion de nuevos productos a las ordenes de compras
 app.use('/api/purchase_order_details', require('./purchaseorderdetails'))

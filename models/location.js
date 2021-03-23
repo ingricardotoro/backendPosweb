@@ -2,25 +2,26 @@ const { Schema, model } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const locationSchema = Schema({
-    codeLocation: {
-        type: String,
-        trim: true,
-        required: [true, 'El codigo de la ubicacion es obligatorio'],
-        unique: true
+
+    area_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Area',
+        required: [true, 'El id del area es obligatoria']
     },
-    name: {
-        type: String,
-        trim: true,
-        required: [true, 'El parentId es obligatorio, default 0'],
+    purchase_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Purchase',
+        required: [true, 'El id de la compra es obligatoria']
     },
-    descripcion: {
-        type: String,
-        trim: true
+
+    product_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+        required: [true, 'El id del producto es obligatorio']
     },
-    parentId: {
+    amount: {
         type: Number,
-        required: [true, 'El parentId es obligatorio, default 0'],
-        default: 0
+        required: [true, 'La cantidad de producto es obligatorio'],
     },
     active: {
         type: Boolean,

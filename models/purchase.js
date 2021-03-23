@@ -3,20 +3,20 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const purchaseSchema = Schema({
 
-    purchaseOrderId: {
+    /*purchaseOrderId: {
         type: Schema.Types.ObjectId,
         ref: 'PurchaseOrder',
         //required: [true, 'El id de la orden de compra es obligatorio'],
-    },
-    warehouseId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Warehouse',
-        //required: [true, 'El id de la orden de compra es obligatorio'],
-    },
+    },*/
     codePurchase: {
         type: Number,
         unique: true,
         required: [true, 'El código de la Compra es obligatorio']
+    },
+    location_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Location',
+        //required: [true, 'El id de la orden de compra es obligatorio'],
     },
 
     employeeId: {
@@ -44,7 +44,7 @@ const purchaseSchema = Schema({
         //required: [true, 'Los dias de credito de Pago de la compra es obligatorio'],
     },
 
-    Balance: {
+    balance: {
         type: Number,
         required: [true, 'El salde de credito de Pago de la compra es obligatorio'],
     },

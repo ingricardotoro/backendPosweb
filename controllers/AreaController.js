@@ -1,12 +1,12 @@
 const Person = require('../models/person')
-const Warehouse = require('../models/warehouse')
+const Area = require('../models/area')
 
-//funcion para listar todos las Bodegas
-const listWarehouse = async(req, res) => {
+//funcion para listar todos las areas
+const listArea = async(req, res) => {
 
-    await Warehouse.find({})
+    await Area.find({})
         //.populate('personid')
-        .exec(function(err, bodegas) {
+        .exec(function(err, areas) {
 
             //en caso de obtener un error en la Busqueda
             if (err) {
@@ -18,25 +18,25 @@ const listWarehouse = async(req, res) => {
 
             res.status(200).json({
                 ok: true,
-                msg: "Lista de las Bodegas Creadas",
-                bodegas
+                msg: "Lista de las Areas Creadas",
+                areas
             })
 
-            console.log(bodegas);
+            console.log(areas);
         });
 
 }
 
-//funcion para listar todos las Bodegas filtradas por nombre
-const listWarehouseByName = async(req, res) => {
+//funcion para listar todos las areas filtradas por nombre
+const listAreaByName = async(req, res) => {
 
     let name = req.params.name
     nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
 
     if (name) {
 
-        await Warehouse.find({ warehouseName: nameReg })
-            .exec(function(err, bodegas) {
+        await Area.find({ nameArea: nameReg })
+            .exec(function(err, areas) {
                 //en caso de obtener un error en la Busqueda
                 if (err) {
                     return res.status(500).json({
@@ -46,20 +46,20 @@ const listWarehouseByName = async(req, res) => {
                 }
 
                 //verificamos si encontro una persona con estos datos
-                if (bodegas[0].warehouseName === null) {
+                if (areas[0].nameArea === null) {
 
                     return res.status(200).json({
                         ok: false,
-                        msg: "NO hay Bodega con estos datos",
+                        msg: "NO hay Areas con estos datos",
                         Dato: name
                     })
                 }
 
                 res.status(200).json({
                     ok: true,
-                    msg: "Lista de bodegas filtradas por estos datos",
+                    msg: "Lista de Areas filtradas por estos datos",
                     datos: name,
-                    bodegas
+                    areas
                 })
 
                 console.log(bodegas);
@@ -69,46 +69,44 @@ const listWarehouseByName = async(req, res) => {
 
 }
 
-//funcion para crear nuevas Bodegas
-const createWarehouse = async(req, res) => {
+//funcion para crear nuevas areas
+const createArea = async(req, res) => {
 
     const {
-        codeWarehouse,
-        warehouseName,
-        warehouseLocation,
-        warehousePhone1,
-        warehousePhone2,
-        employeeId,
+        parentCode,
+        codeArea,
+        nameArea,
+        phone,
+        employee_id,
         details,
         active
     } = req.body
 
     //creamos una instancia del objeto Warehouse
-    newWarehouse = new Warehouse({
-        codeWarehouse,
-        warehouseName,
-        warehouseLocation,
-        warehousePhone1,
-        warehousePhone2,
-        employeeId,
+    newArea = new Area({
+        parentCode,
+        codeArea,
+        nameArea,
+        phone,
+        employee_id,
         details,
         active
     })
 
     try {
 
-        if (newWarehouse.save()) {
+        if (newArea.save()) {
 
             //Bodega creada exitosamente
             res.status(201).json({
                 ok: true,
-                msg: 'Nueva Bodega Creada',
-                newWarehouse
+                msg: 'Nueva Area Creada',
+                newArea
             })
         } else {
             res.status(500).json({
                 ok: false,
-                msg: "Error creating Bodega"
+                msg: "Error creating new Area"
             })
         }
 
@@ -116,17 +114,17 @@ const createWarehouse = async(req, res) => {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Error catch creating Bodega"
+            msg: "Error catch creating Area"
         })
     }
 
 }
 
-//funcion para la eliminacion de las Bodegas
-const deleteWarehouse = async(req, res) => {
+//funcion para la eliminacion de las areas
+const deleteArea = async(req, res) => {
 
     let id = req.params.id
-    await Warehouse.findByIdAndRemove(id, (err, bodegaDB) => {
+    await Area.findByIdAndRemove(id, (err, areaDB) => {
 
         //en caso de obtener un error en la eliminacion
         if (err) {
@@ -136,8 +134,8 @@ const deleteWarehouse = async(req, res) => {
             })
         }
 
-        //en caso que el id no exita, y no encuentre ninguna bodega a eliminar
-        if (!bodegaDB) {
+        //en caso que el id no exita, y no encuentre ninguna area a eliminar
+        if (!areaDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
@@ -149,13 +147,13 @@ const deleteWarehouse = async(req, res) => {
         //en caso que la bodega ha sido eliminada
         res.status(200).json({
             ok: true,
-            message: "Bodega Eliminada Exitosamente"
+            message: "Area Eliminada Exitosamente"
         })
     })
 }
 
-//funcion para modificar Bodegas
-const updateWarehouse = async(req, res) => {
+//funcion para modificar areas
+const updateArea = async(req, res) => {
 
     try {
 
@@ -165,22 +163,21 @@ const updateWarehouse = async(req, res) => {
         //evitamos que identidad se puedan editar
         //if (body.identidad) { delete body.identidad }
 
-        let updateWarehouse = {
-            codeWarehouse: body.codeWarehouse,
-            warehouseName: body.warehouseName,
-            warehouseLocation: body.warehouseLocation,
-            warehousePhone1: body.warehousePhone1,
-            warehousePhone2: body.warehousePhone2,
-            employeeId: body.employeeId,
+        let updateArea = {
+            parentCode: body.parentCode,
+            codeArea: body.codeArea,
+            nameArea: body.nameArea,
+            phone: body.phone,
+            employee_id: body.employee_id,
             details: body.details,
             active: body.active,
         }
 
         //new : true retorna el nuevo valor actualizado
-        await Warehouse.findByIdAndUpdate(id, updateWarehouse, {
+        await Area.findByIdAndUpdate(id, updateArea, {
                 new: true,
             },
-            (err, bodegaDB) => {
+            (err, areaDB) => {
 
                 //en caso de tener algun error en save()
                 if (err) {
@@ -191,7 +188,7 @@ const updateWarehouse = async(req, res) => {
                 }
 
                 //evaluaremos si NO se modifico la bodega
-                if (!bodegaDB) {
+                if (!areaDB) {
                     return res.status(400).json({
                         ok: false,
                         err
@@ -201,8 +198,8 @@ const updateWarehouse = async(req, res) => {
                 //en caso de que Si se actualizo la bodega
                 res.status(200).json({
                     ok: true,
-                    msj: "Bodega Actualizada Exitosamente",
-                    BodegaActualizada: bodegaDB,
+                    msj: "Area Actualizada Exitosamente",
+                    AreaActualizada: areaDB,
 
                 })
 
@@ -214,11 +211,11 @@ const updateWarehouse = async(req, res) => {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Error Catch Actualizando Bodega"
+            msg: "Error Catch Actualizando Area"
         })
     }
 
 }
 
 
-module.exports = { createWarehouse, listWarehouse, deleteWarehouse, updateWarehouse, listWarehouseByName }
+module.exports = { createArea, listArea, deleteArea, updateArea, listAreaByName }
