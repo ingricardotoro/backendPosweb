@@ -3,6 +3,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const areasSchema = Schema({
 
+    index: {
+        type: Number,
+        required: [true, 'El index del Area Padre es obligatorio'],
+    },
     parentCode: {
         type: Number,
         required: [true, 'El id del Area Padre es obligatorio'],

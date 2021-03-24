@@ -19,6 +19,7 @@ const { createArea, listArea, deleteArea, updateArea, listAreaByName } = require
 //=======================
 //Rutas para crear nuevas Bodegas (POST) .../api/areas
 router.post('/', [
+    check('index', 'El index de Area Padre es obligatorio').not().isEmpty(),
     check('parentCode', 'El codigo de Area Padre es obligatorio').not().isEmpty(),
     check('codeArea', 'El codigo de Area es obligatorio').not().isEmpty(),
     check('nameArea', 'El nombre del Area es obligatorio').not().isEmpty(),
@@ -36,6 +37,7 @@ router.delete('/delete/:id', deleteArea)
 
 //Rutas para crear actualizar bodegas (PUT) .../api/warehouse/update/id
 router.put('/update/:id', [
+    check('index', 'El codigo de Area Padre es obligatorio').not().isEmpty(),
     check('parentCode', 'El codigo de Area Padre es obligatorio').not().isEmpty(),
     check('codeArea', 'El codigo de Area es obligatorio').not().isEmpty(),
     check('nameArea', 'El nombre del Area es obligatorio').not().isEmpty(),

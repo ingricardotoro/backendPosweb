@@ -73,6 +73,7 @@ const listAreaByName = async(req, res) => {
 const createArea = async(req, res) => {
 
     const {
+        index,
         parentCode,
         codeArea,
         nameArea,
@@ -84,6 +85,7 @@ const createArea = async(req, res) => {
 
     //creamos una instancia del objeto Warehouse
     newArea = new Area({
+        index,
         parentCode,
         codeArea,
         nameArea,
