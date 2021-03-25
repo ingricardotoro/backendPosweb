@@ -22,7 +22,9 @@ router.get('/', listCategory)
 
 //Rutas para crear nuevas categorias (POST) .../api/categories
 router.post('/', [
+    check('index', 'El index es obligatorio').not().isEmpty(),
     check('name', 'El name es obligatorio').not().isEmpty(),
+    check('parendId', 'El parendId es obligatorio').not().isEmpty(),
     check('codeCategory', 'el codeCategory').not().isEmpty(),
     validarCampo
 ], createCategory)
@@ -32,7 +34,9 @@ router.delete('/delete/:id', deleteCategory)
 
 //Rutas para Actualzar nuevas categorias (PUT) .../api/categories/update/id
 router.put('/update/:id', [
+    check('index', 'El index es obligatorio').not().isEmpty(),
     check('name', 'El name es obligatorio').not().isEmpty(),
+    check('parendId', 'El parendId es obligatorio').not().isEmpty(),
     check('codeCategory', 'el codeCategory').not().isEmpty(),
     validarCampo
 ], updateCategory)

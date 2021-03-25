@@ -6,6 +6,7 @@ const areasSchema = Schema({
     index: {
         type: Number,
         required: [true, 'El index del Area Padre es obligatorio'],
+        unique: true,
     },
     parentCode: {
         type: Number,

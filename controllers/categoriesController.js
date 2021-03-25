@@ -26,6 +26,7 @@ const listCategory = async(req, res) => {
 const createCategory = async(req, res) => {
 
     const {
+        index,
         codeCategory,
         name,
         description,
@@ -34,6 +35,7 @@ const createCategory = async(req, res) => {
     } = req.body
 
     newCategory = new Category({
+        index,
         codeCategory,
         name,
         description,

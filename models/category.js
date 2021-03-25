@@ -2,13 +2,23 @@ const { Schema, model } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const categorySchema = Schema({
-
+    index: {
+        type: Number,
+        required: [true, 'El index de categoria es obligatorio'],
+        unique: true,
+    },
+    parentId: {
+        type: Number,
+        required: [true, 'El parentId es obligatorio, default 0'],
+        default: 0
+    },
     codeCategory: {
         type: String,
         trim: true,
         required: [true, 'El codigo de la categoria es obligatorio'],
-        unique: true
+
     },
+
     name: {
         type: String,
         trim: true,
@@ -20,12 +30,7 @@ const categorySchema = Schema({
         type: String,
         trim: true
     },
-    parentId: {
-        type: Number,
-        required: [true, 'El parentId es obligatorio, default 0'],
-        default: 0
 
-    },
     active: {
         type: Boolean,
         default: true
