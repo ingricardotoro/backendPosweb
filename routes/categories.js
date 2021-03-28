@@ -24,7 +24,7 @@ router.get('/', listCategory)
 router.post('/', [
     check('index', 'El index es obligatorio').not().isEmpty(),
     check('name', 'El name es obligatorio').not().isEmpty(),
-    check('parendId', 'El parendId es obligatorio').not().isEmpty(),
+    check('parentId', 'El parendId es obligatorio').not().isEmpty(),
     check('codeCategory', 'el codeCategory').not().isEmpty(),
     validarCampo
 ], createCategory)
@@ -36,7 +36,7 @@ router.delete('/delete/:id', deleteCategory)
 router.put('/update/:id', [
     check('index', 'El index es obligatorio').not().isEmpty(),
     check('name', 'El name es obligatorio').not().isEmpty(),
-    check('parendId', 'El parendId es obligatorio').not().isEmpty(),
+    check('parentId', 'El parendId es obligatorio').not().isEmpty(),
     check('codeCategory', 'el codeCategory').not().isEmpty(),
     validarCampo
 ], updateCategory)
