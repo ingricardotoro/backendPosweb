@@ -47,10 +47,10 @@ const purchaseOrderSchema = Schema({
         type: Number,
         required: [true, 'El costo del envio de la orden de compra es obligatorio'],
     },
-    warehouseId: {
+    area_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Warehouse',
-        required: [true, 'El id de la bode Destino es obligatorio'],
+        ref: 'Area',
+        required: [true, 'El id del area Destino es obligatorio'],
     },
     details: {
         type: String,

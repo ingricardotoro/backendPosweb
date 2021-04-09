@@ -116,7 +116,7 @@ const createPO = async(req, res) => {
         typeShip,
         dateShip,
         costShip,
-        warehouseId,
+        area_id,
         details,
         active
     } = req.body
@@ -133,7 +133,7 @@ const createPO = async(req, res) => {
         typeShip,
         dateShip,
         costShip,
-        warehouseId,
+        area_id,
         details,
         active
     })
@@ -216,7 +216,7 @@ const updatePO = async(req, res) => {
             typeShip: body.typeShip,
             dateShip: body.dateShip,
             costShip: body.costShip,
-            warehouseId: body.warehouseId,
+            area_id: body.area_id,
             details: body.details,
             active: body.active
         }

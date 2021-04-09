@@ -57,7 +57,7 @@ router.put('/update/:id', [
     check('typeShip', 'El typeShip es obligatorio').not().isEmpty(),
     check('dateShip', 'El dateShip es obligatorio').not().isEmpty(),
     check('costShip', 'El costShip es obligatorio').not().isEmpty(),
-    check('warehouseId', 'El warehouseId es obligatorio').not().isEmpty(),
+    check('area_id', 'El area_id es obligatorio').not().isEmpty(),
     validarCampo
 ], updatePO)
 

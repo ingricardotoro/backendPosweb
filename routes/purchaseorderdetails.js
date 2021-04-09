@@ -20,7 +20,7 @@ const { createPOD, listPOD, deletePOD } = require('../controllers/purchaseordeta
 //Rutas para crear nuevas productos a la orde (POST) .../api/purchase_order_details
 router.post('/', [
     check('purchaseOrderId', 'El purchaseOrderId es obligatorio').not().isEmpty(),
-    check('productId', 'El warehouseName es obligatorio').not().isEmpty(),
+    check('productId', 'El productId es obligatorio').not().isEmpty(),
     check('cuantity', 'El cuantity es obligatorio').not().isEmpty(),
     check('cost', 'El cost es obligatorio').not().isEmpty(),
     check('tax', 'El tax es obligatorio').not().isEmpty(),
