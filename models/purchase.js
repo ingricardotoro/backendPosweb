@@ -13,10 +13,10 @@ const purchaseSchema = Schema({
         unique: true,
         required: [true, 'El código de la Compra es obligatorio']
     },
-    location_id: {
+    area_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Location',
-        //required: [true, 'El id de la orden de compra es obligatorio'],
+        ref: 'Area',
+        required: [true, 'El id de bodega inicial es compra es obligatorio'],
     },
 
     employeeId: {

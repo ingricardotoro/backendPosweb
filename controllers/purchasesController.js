@@ -1,4 +1,7 @@
 const P = require('../models/purchase')
+const PD = require('../models/purchaseDetails')
+const Location = require('../models/location')
+const Inventory = require('../models/inventory')
 
 //funcion para listar todos las compras
 const listP = async(req, res) => {
@@ -107,7 +110,7 @@ const createP = async(req, res) => {
 
     const {
         codePurchase,
-        location_id,
+        area_id,
         employeeId,
         codeInvoice,
         datePurchase,
@@ -120,7 +123,7 @@ const createP = async(req, res) => {
     //creamos una instancia del objeto Orden de Compra
     newPurchase = new P({
         codePurchase,
-        location_id,
+        area_id,
         employeeId,
         codeInvoice,
         datePurchase,
@@ -132,20 +135,68 @@ const createP = async(req, res) => {
 
     try {
 
-        if (newPurchase.save()) {
+        newPurchase.save()
 
-            //Orden de Compra creada exitosamente
-            res.status(201).json({
-                ok: true,
-                msg: 'Nueva Compra Creada',
-                newPurchase
-            })
-        } else {
-            res.status(500).json({
-                ok: false,
-                msg: "Error creating new Compra"
-            })
-        }
+        /**********************Registramos los datos de la compra en la tabla LOCATIONS */
+        //Buscamos los productos en Detalles de orden
+        await PD.find({ codePurchase })
+            .exec(function(err, productsDetails) {
+
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                }
+
+                if (!productsDetails) {
+                    res.status(400).json({
+                        ok: false,
+                        msg: "NO HAY Detalles de Productos registrados con este Codigo de compra",
+                        find: false
+                    })
+                }
+
+                //recoremos cada producto de la tabla detalles de productos
+                productsDetails.map((prod) => {
+
+                    //guardamos informacion en la tabla de ubicaciones
+                    try {
+
+                        newLocation = new Location({
+                            area_id: area_id,
+                            purchase_id: newPurchase._id,
+                            product_id: prod._id,
+                            amount: prod.cuantityReceived,
+                        })
+
+                        newLocation.save()
+
+                    } catch (error) {
+                        res.status(500).json({
+                            ok: true,
+                            msg: 'Erro en Cath de Location',
+
+                        })
+                        console.log(error)
+                    }
+
+                })
+
+
+            });
+
+        //Registramos los datos en la tabla de Inventario
+        RegistroDeInventario(codePurchase)
+
+        //Orden de Compra creada exitosamente
+        res.status(201).json({
+            ok: true,
+            msg: 'Nueva Compra Creada',
+            newPurchase
+        })
+
+
 
     } catch (error) {
         console.log(error)
@@ -156,6 +207,120 @@ const createP = async(req, res) => {
     }
 
 }
+
+
+
+const RegistroDeInventario = async(codePurchase) => {
+
+    /**********************Guardamos los datos en el inventario*/
+    //Buscamos los productos en Detalles de orden
+    await PD.find({ codePurchase })
+        .exec(function(err, productsDetails) {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            if (!productsDetails) {
+
+                console.log("NO HAY Detalles de Productos registrados con este Codigo de compra")
+            }
+
+
+            productsDetails.map((prod) => {
+
+                UpdateInventories(prod._id, prod.cuantityReceived)
+
+            })
+
+        });
+
+
+}
+
+const UpdateInventories = async(prodId, cuantityReceived) => {
+
+    //confirmamos si el producto ya existe en el inventario
+    await Inventory.find({ productId: prodId })
+        .exec(function(err, registro) {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            //en caso de NO encontar este producto en el inventario
+            if (registro[0] === undefined) {
+
+
+                //guardamos informacion en la tabla de ubicaciones
+                try {
+
+                    newInventory = new Inventory({
+                        productId: prodId,
+                        valorInicial: parseFloat(cuantityReceived),
+                        entradas: 0,
+                        salidas: 0,
+                        existencias: parseFloat(cuantityReceived),
+                        reorden: 0,
+                        minimo: 0,
+                        maximo: 0
+                    })
+
+                    newInventory.save()
+
+                } catch (error) {
+
+                    console.log(error)
+                }
+
+            }
+            //en caso de SI encontrar el producto
+            else {
+
+                //guardamos informacion en la tabla de ubicaciones
+                try {
+
+                    let updateInventary = {
+
+                        entradas: parseFloat(registro[0].entradas) + parseFloat(cuantityReceived),
+                        existencias: parseFloat(registro[0].existencias) + parseFloat(cuantityReceived),
+
+                    }
+
+                    Inventory.findByIdAndUpdate(registro[0]._id, updateInventary, {
+                            new: true, //devuelve el objeto actualizado
+                        },
+                        (err, registerUpdatedDB) => {
+                            //en caso de tener algun error en save()
+                            if (err) {
+                                console.log("ERRORASO" + err);
+
+                            }
+
+                            //evaluaremos si NO se modifico la Categoria
+                            if (!registerUpdatedDB) {
+                                console.log("Error En la modificacion")
+                            }
+                        }
+                    )
+
+                } catch (error) {
+
+                    console.log(error)
+                }
+            }
+
+        })
+
+}
+
+
 
 //funcion para la eliminacion de las compras
 const deleteP = async(req, res) => {
@@ -200,7 +365,7 @@ const updateP = async(req, res) => {
         let updatePurchase = {
 
             codePurchase: body.codePurchase,
-            location_id: body.location_id,
+            area_id: body.area_id,
             employeeId: body.employeeId,
             codeInvoice: body.codeInvoice,
             datePurchase: body.datePurchase,

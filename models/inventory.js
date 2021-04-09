@@ -10,7 +10,7 @@ const inventorySchema = Schema({
     },
     valorInicial: {
         type: Number,
-        required: [true, 'La cantidad de producto inicial es obligatorio'],
+        //required: [true, 'La cantidad de producto inicial es obligatorio'],
     },
     entradas: {
         type: Number,
@@ -20,7 +20,7 @@ const inventorySchema = Schema({
     },
     existencias: {
         type: Number,
-        required: [true, 'La cantidad en existencia es obligatorio']
+        //required: [true, 'La cantidad en existencia es obligatorio']
     },
     reorden: {
         type: Number,

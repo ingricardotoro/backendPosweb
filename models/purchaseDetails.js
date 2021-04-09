@@ -3,10 +3,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const purchaseDetailsSchema = Schema({
 
-    purchaseId: {
-        type: Schema.Types.ObjectId,
+    codePurchase: {
+        type: Number,
         ref: 'Purchase',
-        required: [true, 'El id de la compra es obligatorio'],
+        required: [true, 'El codigo de la compra es obligatorio'],
     },
 
     productId: {
@@ -54,7 +54,7 @@ const purchaseDetailsSchema = Schema({
         required: [true, 'El Descuento es obligatorio'],
     },
 
-    detail: {
+    details: {
         type: String,
     },
 

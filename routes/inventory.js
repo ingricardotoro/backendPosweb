@@ -19,7 +19,6 @@ const { registerInventory, listInventory, findInventoryByProductId, findInventor
 //=======================
 //Rutas para crear nuevos registros de inventario (POST) .../api/inventory
 router.post('/', [
-    check('warehouseId', 'El warehouseId es obligatorio').not().isEmpty(),
     check('productId', 'El productId es obligatorio').not().isEmpty(),
     validarCampo
 ], registerInventory)

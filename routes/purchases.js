@@ -21,10 +21,11 @@ const { createP, listP, deleteP, updateP, listPByCode, lastCodeP } = require('..
 router.post('/', [
     //check('codePurchaseOrder', 'El codePurchaseOrder es obligatorio').not().isEmpty(),
     check('employeeId', 'El employeeId es obligatorio').not().isEmpty(),
+    check('area_id', 'El area_id es obligatorio').not().isEmpty(),
     check('codeInvoice', 'El codeInvoice es obligatorio').not().isEmpty(),
     check('datePurchase', 'El datePurchase es obligatorio').not().isEmpty(),
     check('typePaid', 'El typePaid es obligatorio').not().isEmpty(),
-    check('Balance', 'El Balance es obligatorio').not().isEmpty(),
+    check('balance', 'El Balance es obligatorio').not().isEmpty(),
     check('statusPurchase', 'El statusPurchase es obligatorio').not().isEmpty(),
     validarCampo
 ], createP)

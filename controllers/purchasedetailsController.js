@@ -1,12 +1,12 @@
 const PD = require('../models/purchaseDetails')
 
-//funcion para buscar todos los productos asignados a un ID  de compra
+//funcion para buscar todos los productos asignados a un codigo de compra
 const listPD = async(req, res) => {
 
     try {
 
-        const purchaseId = req.params.purchaseId
-        await PD.find({ purchaseId })
+        const codePurchase = req.params.codePurchase
+        await PD.find({ codePurchase })
             .exec(function(err, productsDetails) {
 
                 if (err) {
@@ -50,7 +50,7 @@ const createPD = async(req, res) => {
 
     try {
         const {
-            purchaseId,
+            codePurchase,
             productId,
             cuantityRequered,
             cuantityReceived,
@@ -60,12 +60,12 @@ const createPD = async(req, res) => {
             cost,
             tax,
             discount,
-            detail
+            details
         } = req.body
 
 
         newPD = new PD({
-            purchaseId,
+            codePurchase,
             productId,
             cuantityRequered,
             cuantityReceived,
@@ -75,7 +75,7 @@ const createPD = async(req, res) => {
             cost,
             tax,
             discount,
-            detail
+            details
         })
 
         if (newPD.save()) {

@@ -29,7 +29,7 @@ router.post('/', [
 ], createPD)
 
 //Ruta para listar a todas los detalles por Id de compras
-router.get('/:purchaseId', listPD)
+router.get('/:codePurchase', listPD)
 
 //Rutas para crear eliminar una producto por ID (DELETE
 router.delete('/delete/:id', deletePD)
