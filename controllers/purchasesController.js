@@ -7,7 +7,8 @@ const Inventory = require('../models/inventory')
 const listP = async(req, res) => {
 
     await P.find({})
-        //.populate('personid')
+        .populate('area_id')
+        .populate('employeeId')
         .exec(function(err, compras) {
 
             //en caso de obtener un error en la Busqueda
@@ -38,6 +39,8 @@ const listPByCode = async(req, res) => {
     if (codePurchase) {
 
         await P.find({ codePurchase })
+            .populate('area_id')
+            .populate('employeeId')
             .exec(function(err, compra) {
                 //en caso de obtener un error en la Busqueda
                 if (err) {
