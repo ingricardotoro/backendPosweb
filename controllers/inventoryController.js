@@ -5,7 +5,6 @@ const listInventory = async(req, res) => {
 
     await Inventory.find({})
         .populate('productId')
-        .populate('warehouseId')
         .exec(function(err, registros) {
 
             //en caso de obtener un error en la Busqueda
@@ -31,7 +30,6 @@ const listInventory = async(req, res) => {
 const registerInventory = async(req, res) => {
 
     const {
-        warehouseId,
         productId,
         cuantity
     } = req.body
@@ -48,8 +46,7 @@ const registerInventory = async(req, res) => {
         //verificamos si encontro un registro con este ID de producto
         if (registro.length === 0) {
             //en caso de ser la primera vez que se registra este producto
-                newRegistro = new Inventory({
-                warehouseId: warehouseId,
+            newRegistro = new Inventory({
                 productId: productId,
                 valorInicial: parseFloat(cuantity),
                 entradas: 0,
@@ -146,7 +143,7 @@ const findInventoryByProductId = async(req, res) => {
 
     let productId = req.params.productId
         //nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
-    console.log(productId)
+        //console.log(productId)
     await Inventory.find({ productId })
         .exec(function(err, registro) {
             //en caso de obtener un error en la Busqueda
@@ -157,7 +154,7 @@ const findInventoryByProductId = async(req, res) => {
                 })
             }
 
-            //verificamos si encontro una persona con estos datos
+            //verificamos si encontro una registro con estos datos
             if (registro.productId === null) {
 
                 return res.status(400).json({
