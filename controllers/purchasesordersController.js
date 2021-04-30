@@ -4,7 +4,9 @@ const PO = require('../models/purchaseOrder')
 const listPO = async(req, res) => {
 
     await PO.find({})
-        //.populate('personid')
+        .populate('area_id')
+        .populate('employeeId')
+        .populate('supplierId')
         .exec(function(err, ordenesCompras) {
 
             //en caso de obtener un error en la Busqueda
@@ -35,6 +37,9 @@ const listPOByCode = async(req, res) => {
     if (codePurchaseOrder) {
 
         await PO.find({ codePurchaseOrder })
+            .populate('area_id')
+            .populate('employeeId')
+            .populate('supplierId')
             .exec(function(err, ordenesCompras) {
                 //en caso de obtener un error en la Busqueda
                 if (err) {
