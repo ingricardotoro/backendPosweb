@@ -12,7 +12,7 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { createRQD, listRQD, deleteRQD } = require('../controllers/requisitionsdetailsController')
+const { createRQD, listRQD, deleteRQD } = require('../controllers/requisitionsDetailsController')
 
 //=======================
 //RUTAS
