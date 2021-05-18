@@ -46,5 +46,11 @@ app.use('/api/inventory', require('./inventory'))
 //Ruta para la gestionar el control de las ubicaciones
 app.use('/api/locations', require('./locations'))
 
+//Ruta para la gestionar el control de las Requisiciones
+app.use('/api/requisitions', require('./requisitions'))
+
+//Ruta para la gestionar el control de los Detalles de Requisiciones
+app.use('/api/requisitions_details', require('./requisitionsDetails'))
+
 
 module.exports = app

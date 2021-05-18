@@ -16,7 +16,7 @@ const purchaseSchema = Schema({
     area_id: {
         type: Schema.Types.ObjectId,
         ref: 'Area',
-        required: [true, 'El id de bodega inicial es compra es obligatorio'],
+        required: [true, 'El id del area inicial es compra es obligatorio'],
     },
 
     employeeId: {
