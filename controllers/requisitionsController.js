@@ -5,7 +5,14 @@ const listRQ = async(req, res) => {
 
     await RQ.find({})
         .populate('area_id')
-        .populate('employeeId')
+        //.populate('employeeId')
+        .populate({
+            path: 'employeeId',
+            populate: {
+                path: 'personid',
+                model: 'Person',
+            }
+        })
         .exec(function(err, requisitions) {
 
             //en caso de obtener un error en la Busqueda

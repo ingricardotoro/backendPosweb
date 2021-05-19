@@ -58,7 +58,7 @@ const createRQD = async(req, res) => {
         } = req.body
 
 
-        newRQD = new POD({
+        newRQD = new RQD({
             requisitionId,
             productId,
             cuantity,
