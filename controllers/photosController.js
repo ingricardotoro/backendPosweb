@@ -25,14 +25,14 @@ const listPhotosByProductId = async(req, res) => {
                     return res.status(200).json({
                         ok: false,
                         msg: "NO hay photos con estos datos",
-                        Dato: productId
+                        ProductId: productId
                     })
                 }
 
                 res.status(200).json({
                     ok: true,
                     msg: "Lista de photos filtrados por estos datos",
-                    datos: productId,
+                    ProductId: productId,
                     photos
                 })
 
