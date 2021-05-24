@@ -70,6 +70,56 @@ const listProductByName = async(req, res) => {
     }
 }
 
+const findProductById = async(req, res) => {
+
+    let productId = req.params.productId
+        //nameReg = new RegExp(name, "i"); //i es para ser INSENSITIVE 
+
+    if (productId) {
+
+        await Product.find({ _id: productId })
+            .exec(function(err, products) {
+                //en caso de obtener un error en la Busqueda
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                }
+
+                console.log(JSON.stringify(products))
+
+                //verificamos si encontro una persona con estos datos
+                if (products[0] === null) {
+
+                    return res.status(200).json({
+                        ok: false,
+                        msg: "NO hay Productos con estos datos",
+                        Dato: productId
+                    })
+                }
+
+                res.status(200).json({
+                    ok: true,
+                    msg: "Lista de Productos filtrados por estos datos",
+                    datos: productId,
+                    products
+                })
+
+            });
+
+    } else {
+
+        res.status(200).json({
+            ok: true,
+            msg: "La variable product Id en el URL es Obligatoria",
+        })
+
+        console.log("La variable product Id en el URL es Obligatoria");
+
+    }
+}
+
 //funcion para crear nuevos categorias
 const createProduct = async(req, res) => {
 
@@ -254,4 +304,4 @@ const updateProduct = async(req, res) => {
 
 }
 
-module.exports = { listProduct, createProduct, deleteProduct, updateProduct, listProductByName }
+module.exports = { listProduct, createProduct, deleteProduct, updateProduct, listProductByName, findProductById }

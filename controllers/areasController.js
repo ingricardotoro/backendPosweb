@@ -5,7 +5,13 @@ const Area = require('../models/area')
 const listArea = async(req, res) => {
 
     await Area.find({})
-        //.populate('personid')
+        .populate({
+            path: 'employeeId',
+            populate: {
+                path: 'personid',
+                model: 'Person',
+            }
+        })
         .exec(function(err, areas) {
 
             //en caso de obtener un error en la Busqueda
@@ -36,6 +42,13 @@ const listAreaByName = async(req, res) => {
     if (name) {
 
         await Area.find({ nameArea: nameReg })
+            .populate({
+                path: 'employeeId',
+                populate: {
+                    path: 'personid',
+                    model: 'Person',
+                }
+            })
             .exec(function(err, areas) {
                 //en caso de obtener un error en la Busqueda
                 if (err) {

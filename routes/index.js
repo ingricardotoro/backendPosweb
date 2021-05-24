@@ -52,5 +52,8 @@ app.use('/api/requisitions', require('./requisitions'))
 //Ruta para la gestionar el control de los Detalles de Requisiciones
 app.use('/api/requisitions_details', require('./requisitionsDetails'))
 
+//Ruta para la gestionar el las fotografias de los productos
+app.use('/api/photos', require('./photos'))
+
 
 module.exports = app

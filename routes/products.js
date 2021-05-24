@@ -11,7 +11,8 @@ const { check } = require('express-validator')
 const { validarCampo } = require('../middlewares/validarCampo')
 
 //importamos los controladores que usaran en las rutas
-const { listProduct, createProduct, deleteProduct, updateProduct, listProductByName } = require('../controllers/productsController')
+const { listProduct, createProduct, deleteProduct, updateProduct, listProductByName, findProductById } = require('../controllers/productsController')
+
 
 //=======================
 //RUTAS
@@ -19,9 +20,11 @@ const { listProduct, createProduct, deleteProduct, updateProduct, listProductByN
 //Ruta para listar a todos los productos creados
 router.get('/', listProduct)
 
+//Ruta para listar a productos del invetario filtradas por productId
+router.get('/findbyid/:productId', findProductById)
+
 //Ruta para buscar los prductos filtrados por nombre enviado por URL
 router.get('/findByName/:name', listProductByName)
-
 
 //Rutas para crear nuevos productos (POST) .../api/products
 router.post('/', [
