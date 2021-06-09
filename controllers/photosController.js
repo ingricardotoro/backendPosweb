@@ -1,5 +1,36 @@
 const Photo = require('../models/photos')
 
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+let path = require('path');
+
+/*******TO UPLOAD FILE OR PHOTO */
+const storage = multer.diskStorage({
+
+    destination: function(req, file, cb) {
+        cb(null, './public/products/photos');
+    },
+    filename: function(req, file, cb) {
+        cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const multerFilter = (req, file, cb) => {
+    console.log("AQUI VAMOS")
+        //const allowedFileTypes = ['image/jpeg', 'image/jpg', , 'image/JPG', 'image/png', 'image/PNG'];
+    if (file.mimetype.startsWith('image')) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+    file.mimetype.startsWith('image')
+}
+
+const upload = multer({
+    storage,
+    fileFilter: multerFilter,
+})
+
 //funcion para listar todas las photos
 const listPhotosByProductId = async(req, res) => {
 
@@ -82,4 +113,33 @@ const deletePhoto = async(req, res) => {
     })
 }
 
-module.exports = { listPhotosByProductId, deletePhoto }
+const createPhoto = async(req, res) => {
+    //console.log("files:" + req.files)
+    req.files.file.forEach((file) => {
+
+        let productId = req.body.productId;
+        let src = file.filename;
+
+        const newPhotoData = {
+            productId,
+            src
+        }
+
+        const newPhoto = new Photo(newPhotoData);
+
+        newPhoto.save()
+            .then(() => res.json('Photo Added'))
+            .catch(err => res.status(400).json('Error: ' + err));
+
+    })
+}
+
+/*const uploadPhoto = (req, res) => {
+    console.log("BIEN=" + req)
+}*/
+
+const uploadPhoto = upload.fields([
+    { name: 'file', maxCount: 12 },
+])
+
+module.exports = { listPhotosByProductId, deletePhoto, createPhoto, uploadPhoto }
